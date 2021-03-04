@@ -1,5 +1,7 @@
-const express = require('express')
-const products = require('./data/products.js')
+import './env.js'
+import express from 'express'
+import products from './data/products.js'
+import './mongoose.js'
 
 const app = express()
 
@@ -16,5 +18,6 @@ app.get('/api/products/:id', (req, res) => {
     res.json(product)
 })
 
+const PORT = process.env.PORT || 5000
 
-app.listen(5000, console.log('Server running on port 5000'))
+app.listen(5000, console.log(`Server running in ${process.env.NODE_ENV} node on port ${PORT}`))

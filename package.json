@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "MERN shopping cart app",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node backend/server",
-    "server": "nodemon backend/server",
+    "serve": "nodemon backend/server",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\" "
+    "dev": "concurrently \"npm run serve\" \"npm run client\" "
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,11 @@
   "homepage": "https://github.com/vumanhtien111299/ProShop#readme",
   "dependencies": {
     "axios": "^0.21.1",
-    "express": "^4.17.1"
+    "chalk": "^4.1.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.4",
+    "mongoose": "5.11.15"
   },
   "devDependencies": {
     "concurrently": "^6.0.0",
