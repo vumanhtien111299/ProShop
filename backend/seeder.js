@@ -10,7 +10,6 @@ import './mongoose.js'
 
 const importData = async () => {
     try {
-        console.log('----', users)
         await Order.deleteMany()
         await Product.deleteMany()
         await User.deleteMany()
