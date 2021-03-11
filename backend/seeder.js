@@ -1,12 +1,12 @@
 
-import './env.js'
-import users from './data/users.js'
-import products from './data/products.js'
+import './src/env.js'
+import users from './src/data/users.js'
+import products from './src/data/products.js'
 import chalk from 'chalk'
-import User from './models/userModel.js'
-import Product from './models/productModel.js'
-import Order from './models/orderModel.js'
-import './mongoose.js'
+import { User } from './src/models/userModel.js'
+import { Product } from './src/models/productModel.js'
+import { Order } from './src/models/orderModel.js'
+import './src/mongoose.js'
 
 const importData = async () => {
     try {
