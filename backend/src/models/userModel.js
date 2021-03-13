@@ -25,20 +25,18 @@ const userSchema = mongoose.Schema({
     timestamps: true
 })
 
-userSchema.pre('save', async (next) => {
-    const user = this
-    if (user.isModified('password')) {
-        const salt = await bcrypt.genSalt(10)
-        const password = await bcrypt.hash(user.password, salt)
-
-        user.password = password
-        return next()
-    }
-})
-
 userSchema.methods.matchPassword = function (enteredPassword) {
     return bcrypt.compareSync(enteredPassword, this.password)
 }
+
+//just use function (error function can not use)
+userSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        const salt = await bcrypt.genSalt(10)
+        this.password = await bcrypt.hash(this.password, salt)
+    }
+    return next()
+})
 
 
 export const User = mongoose.model('User', userSchema)

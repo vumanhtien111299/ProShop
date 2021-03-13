@@ -1,13 +1,11 @@
 import * as user from './user.process.js'
 
-export const Login = async (req, res) => {
-    const { data, message, status } = await user.UserLogin(req.body)
-
-    return res.status(status).send({ status, message, data })
+export const GetProfileUser = async (req, res) => {
+    return res.status(200).send({ status: 200, message: 'Get user successful !', data: user.get })
 }
 
-export const GetProfileUser = async (req, res) => {
-    // const { data, message, status } = await user.GetProfile(req.body)
+export const register = async (req, res) => {
+    const { status, message, data } = await user.createNewUser(req.body)
 
-    return res.status(200).send(req.user)
+    return res.status(status).send({ status, message, data })
 }

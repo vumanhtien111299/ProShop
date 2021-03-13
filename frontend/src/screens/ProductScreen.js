@@ -6,7 +6,7 @@ import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 
-import { listProductDetails } from '../actions/productActions.js'
+import { listProductDetails } from '../actions/product.actions.js'
 
 const ProductScreen = ({ history, match }) => {
     const [qty, setQty] = useState(1)

@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants.js'
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cart.constants.js'
 
 export const cartReducer = (
     state = { cartItems: [], shippingAddress: {} }, action) => {
