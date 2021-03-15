@@ -8,5 +8,7 @@ export default (prefix) => {
     // Prefix path
     prefix.use('/users', authentication.verifyToken, router);
 
-    router.get('/profile', User.GetProfileUser)
+    router.get('/profile', User.getProfileUser)
+
+    router.put('/profile', User.updateUserProfile)
 }
