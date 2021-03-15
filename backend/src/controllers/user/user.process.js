@@ -1,5 +1,6 @@
 import { User } from '../../models/userModel.js'
 import { logger } from '../../utils/logger.js'
+import { accessToken } from '../../utils/token.js';
 
 export const get = async (filter = {}) => {
     const response = {
@@ -32,19 +33,22 @@ export const createNewUser = async (data) => {
         })
         if (user) {
             return {
-                status: 200,
-                message: 'Register User success !',
-                data: {}
+                statusCode: 400,
+                message: 'User existed',
+                data: {},
             };
         }
-
+        console.log(data)
         const newUser = await User.create({
             name: data.name,
             email: data.email,
             password: data.password
         })
 
-        response.data = newUser
+        response.data = {
+            accessToken: accessToken(newUser._id),
+            user: newUser,
+        }
     } catch (error) {
         logger.fail(error.message)
 

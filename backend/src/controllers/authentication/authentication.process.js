@@ -27,6 +27,7 @@ export const checkUserLogin = async ({ email, password }) => {
             throw new Error('Invalid email or password')
         }
     } catch (error) {
+        console.log(error)
         response.status = 500
         response.message = error
     }
