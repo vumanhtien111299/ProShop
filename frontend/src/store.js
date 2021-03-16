@@ -3,7 +3,12 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { productListReducer, productDetailsReducer } from './reducers/product.reducers.js'
 import { cartReducer } from './reducers/cart.reducers.js'
-import { userLoginReducer, userRegisterReducer, userDetailsReducer } from './reducers/user.reducers.js'
+import {
+    userLoginReducer,
+    userRegisterReducer,
+    userDetailsReducer,
+    userUpdateProfileReducer
+} from './reducers/user.reducers.js'
 
 const reducer = combineReducers({
     productList: productListReducer,
@@ -11,7 +16,8 @@ const reducer = combineReducers({
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
-    userDetails: userDetailsReducer
+    userDetails: userDetailsReducer,
+    userUpdateProfile: userUpdateProfileReducer
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []

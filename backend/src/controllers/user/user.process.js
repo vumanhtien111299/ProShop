@@ -33,7 +33,7 @@ export const createNewUser = async (data) => {
         })
         if (user) {
             return {
-                statusCode: 400,
+                status: 400,
                 message: 'User existed',
                 data: {},
             };
@@ -57,5 +57,42 @@ export const createNewUser = async (data) => {
     }
     return response
 }
+
+export const updateUser = async ({ _id, data }) => {
+    const response = {
+        status: 200,
+        message: 'Update user successful',
+        data: {},
+    };
+
+    try {
+        if (data.email) {
+            const user = await User.findOne({ email: data.email });
+            if (user) {
+                return {
+                    status: 400,
+                    message: 'Email existed',
+                    data: {},
+                };
+            }
+        }
+
+        const updatedUser = await User.findOneAndUpdate({ _id }, data, { new: true });
+        if (!updatedUser) {
+            return {
+                status: 404,
+                message: 'User not existed',
+                data: {},
+            };
+        }
+
+        response.data = updatedUser;
+    } catch (error) {
+        response.status = 500;
+        response.message = error.message;
+    }
+
+    return response;
+};
 
 

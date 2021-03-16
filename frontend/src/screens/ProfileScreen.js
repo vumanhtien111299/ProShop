@@ -3,7 +3,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
-import { getUserDetails } from '../actions/user.actions.js'
+import { getUserDetails, updateUserProfile } from '../actions/user.actions.js'
 
 const ProfileScreen = ({ history }) => {
     const [name, setName] = useState('')
@@ -16,6 +16,8 @@ const ProfileScreen = ({ history }) => {
 
     const { loading, error: error, user } = useSelector(({ userDetails }) => userDetails)
     const { userInfo } = useSelector(({ userLogin }) => userLogin)
+    const { success } = useSelector(({ userUpdateProfile }) => userUpdateProfile)
+
 
     useEffect(() => {
         if (!userInfo) {
@@ -39,7 +41,7 @@ const ProfileScreen = ({ history }) => {
         if (password !== confirmPassword) {
             setMessage('Passwords do not match')
         } else {
-            //DISPATCH UPDATE PROFILE
+            dispatch(updateUserProfile({ _id: user._id, name, email, password }))
         }
     }
 
@@ -48,6 +50,7 @@ const ProfileScreen = ({ history }) => {
             <h1>User Profile</h1>
             {message && <Message variant='danger'>{message}</Message>}
             {error && <Message variant='danger'>{error}</Message>}
+            {success && <Message variant='success'>Profile Updated</Message>}
             {loading && <Loader />}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='name'>
@@ -79,7 +82,7 @@ const ProfileScreen = ({ history }) => {
                         placeholder='Enter password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required={true}
+                    // required={true}
                     ></Form.Control>
                 </Form.Group>
 
@@ -90,7 +93,7 @@ const ProfileScreen = ({ history }) => {
                         placeholder='Confirm password'
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        required={true}
+                    // required={true}
                     ></Form.Control>
                 </Form.Group>
 
