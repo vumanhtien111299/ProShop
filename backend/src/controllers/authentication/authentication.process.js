@@ -10,7 +10,6 @@ export const checkUserLogin = async ({ email, password }) => {
 
     try {
         const user = await User.findOne({ email })
-        console.log(user)
 
         if (user && (await user.matchPassword(password))) {
             response.data = {
@@ -23,8 +22,11 @@ export const checkUserLogin = async ({ email, password }) => {
                 accessToken: accessToken(user._id)
             }
         } else {
-            res.status(401)
-            throw new Error('Invalid email or password')
+            return {
+                status: 401,
+                message: 'Invalid email or password',
+                data: {}
+            }
         }
     } catch (error) {
         console.log(error)
