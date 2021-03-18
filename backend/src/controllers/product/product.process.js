@@ -1,4 +1,4 @@
-import { Product } from '../../models/productModel.js'
+import { Product } from '../../models/product.model.js'
 import { logger } from '../../utils/logger.js'
 
 

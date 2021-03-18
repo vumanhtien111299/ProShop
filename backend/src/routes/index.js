@@ -1,6 +1,7 @@
 import express from 'express'
 import productRoutes from './product.routes.js'
 import userRoutes from './user.routes.js'
+import orderRoutes from './order.routes.js'
 import *  as User from '../controllers/user/user.handle.js'
 import * as authentication from '../controllers/authentication/authentication.handle.js'
 
@@ -16,6 +17,9 @@ export default (app) => {
 
     //User routes
     userRoutes(router)
+
+    //Order routes
+    orderRoutes(router)
 
     // @desc Login
     // @route POST /login

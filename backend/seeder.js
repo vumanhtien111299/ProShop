@@ -3,9 +3,9 @@ import './src/env.js'
 import users from './src/data/users.js'
 import products from './src/data/products.js'
 import chalk from 'chalk'
-import { User } from './src/models/userModel.js'
-import { Product } from './src/models/productModel.js'
-import { Order } from './src/models/orderModel.js'
+import { User } from './src/models/user.model.js'
+import { Product } from './src/models/product.model.js'
+import { Order } from './src/models/order.model.js'
 import './src/mongoose.js'
 
 const importData = async () => {
@@ -22,7 +22,6 @@ const importData = async () => {
             return { ...product, user: adminUser }
         })
 
-        console.log('-----sam', sampleProducts)
         await Product.create(sampleProducts)
 
         console.log(`${chalk.green('Data Imported')}`)
@@ -43,7 +42,6 @@ const destroyData = async () => {
         console.log(`${chalk.red('Data Destroyed !!')}`)
         process.exit()
     } catch (error) {
-        console.log('-d----error', error)
         console.log(`${chalk.red('Error')}`)
         process.exit(1)
     }
