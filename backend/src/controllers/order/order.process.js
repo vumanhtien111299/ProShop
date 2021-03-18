@@ -1,4 +1,5 @@
 import { Order } from '../../models/order.model.js'
+import { logger } from '../../utils/logger.js'
 
 export const createOrder = async (user, data) => {
     const response = {
