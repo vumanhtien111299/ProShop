@@ -7,7 +7,7 @@ const router = express.Router()
 
 export default (prefix) => {
     // Prefix path
-    prefix.use('/order', authentication.verifyToken, router)
+    prefix.use('/orders', authentication.verifyToken, router)
 
     // @desc Create new order
     // @route POST /order

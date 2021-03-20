@@ -9,8 +9,8 @@ export const createOrder = async (user, data) => {
     }
 
     try {
-        const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = data
-        if (!orderItems.length) {
+        const { OrderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = data
+        if (!OrderItems && !OrderItems.length) {
             return {
                 status: 400,
                 message: 'No items order',
@@ -19,7 +19,7 @@ export const createOrder = async (user, data) => {
         }
 
         const order = new Order({
-            orderItems,
+            OrderItems,
             user: user._id,
             shippingAddress,
             paymentMethod,
@@ -47,11 +47,9 @@ export const getOrderByItem = async (id) => {
     }
 
     try {
-        const order = await (await Order.findById(id))
+        const order = await Order.findById(id).populate({ path: 'user', select: 'name email' });
         if (order) {
-            response.data = {
-                order
-            }
+            response.data = order
         } else {
             return {
                 status: 400,
