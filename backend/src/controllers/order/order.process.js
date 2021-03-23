@@ -66,7 +66,7 @@ export const getOrderByItem = async (id) => {
     return response
 }
 
-export const updateOrder = async (id) => {
+export const updateOrder = async (orderId, data) => {
     const response = {
         status: 200,
         message: 'Update order successful',
@@ -91,4 +91,25 @@ export const updateOrder = async (id) => {
         response.message = error.message
     }
     return response
+}
+
+export const getListOrderFilter = async (filter = {}) => {
+    const response = {
+        status: 200,
+        message: 'Get List Order Successful',
+        data: {}
+    }
+
+    try {
+        const order = await Order.find(filter).populate({ path: 'user', select: 'name email' })
+
+        response.data = order
+    } catch (error) {
+        logger.fail(error.message)
+
+        response.status = 500
+        response.message = error.message
+    }
+
+    return response;
 }

@@ -38,7 +38,8 @@ export const login = (email, password) => async (dispatch) => {
             payload: user
         })
 
-        localStorage.setItem('userInfo', JSON.stringify({ user, accessToken }))
+        localStorage.setItem('userInfo', JSON.stringify(user));
+        localStorage.setItem('jwt', accessToken);
     } catch (error) {
         dispatch({
             type: USER_LOGIN_FAIL,
@@ -103,12 +104,13 @@ export const register = (name, email, password) => async (dispatch) => {
 
 export const getUserDetails = (id) => async (dispatch) => {
     try {
-        const userInfo = localStorage.getItem('userInfo');
-        dispatch({ type: USER_DETAILS_REQUEST })
+        const token = localStorage.getItem('jwt');
+
+        dispatch({ type: USER_DETAILS_REQUEST });
         const config = {
             headers: {
-                'content-Type': 'application/json',
-                'Authorization': `Bearer ${JSON.parse(userInfo).accessToken}`
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         }
 
@@ -133,14 +135,14 @@ export const getUserDetails = (id) => async (dispatch) => {
 
 export const updateUserProfile = (user) => async (dispatch) => {
     try {
-        const userInfo = localStorage.getItem('userInfo');
+        const token = localStorage.getItem('jwt');
 
-        dispatch({ type: USER_UPDATE_PROFILE_REQUEST })
+        dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
         const config = {
             headers: {
-                'content-Type': 'application/json',
-                'Authorization': `Bearer ${JSON.parse(userInfo).accessToken}`
-            }
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
         }
 
         const { data: { data } } = await axios.put(`/api/users/profile/${user._id}`, user, config)

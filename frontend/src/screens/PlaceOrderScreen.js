@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { addDecimals } from '../utils';
 import Message from '../components/Message.js'
 import CheckoutSteps from '../components/CheckoutSteps.js'
 import { createOrder } from '../actions/order.actions.js'
@@ -10,10 +11,6 @@ const PlaceOrderScreen = ({ history }) => {
     const dispatch = useDispatch()
 
     const cart = useSelector(state => state.cart)
-
-    const addDecimals = (num) => {
-        return (Math.round(num * 100) / 100).toFixed(2)
-    }
 
     // Calculate prices
     cart.itemsPrice = addDecimals(cart.cartItems.reduce(

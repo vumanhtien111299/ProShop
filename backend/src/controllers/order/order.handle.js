@@ -1,4 +1,5 @@
 import * as order from './order.process.js'
+import { queryBuilder } from './order.validate.js'
 
 export const addOrderItems = async (req, res) => {
     const { status, message, data } = await order.createOrder(req.user, req.body)
@@ -24,6 +25,13 @@ export const updateOrderToPay = async (req, res) => {
         }
     }
 
-    const { status, message, data } = await order.updateOrder(req.params.id)
+    const { status, message, data } = await order.updateOrder(req.params.id, updateData)
+    return res.status(status).send({ status, message, data })
+}
+
+export const getListOrder = async (req, res) => {
+    const filter = queryBuilder(req.query)
+    const { status, message, data } = await order.getListOrderFilter(filter)
+
     return res.status(status).send({ status, message, data })
 }

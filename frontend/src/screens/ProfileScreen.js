@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button, Row, Col, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap';
 import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
 import { getUserDetails, updateUserProfile } from '../actions/user.actions.js'
+import { listMyOrders } from '../actions/order.actions.js'
+import { formatTimeZone } from '../utils';
 
 const ProfileScreen = ({ history }) => {
     const [name, setName] = useState('')
@@ -17,7 +20,7 @@ const ProfileScreen = ({ history }) => {
     const { loading, error: error, user } = useSelector(({ userDetails }) => userDetails)
     const { userInfo } = useSelector(({ userLogin }) => userLogin)
     const { success } = useSelector(({ userUpdateProfile }) => userUpdateProfile)
-
+    const { loading: loadingOrders, error: errorOrders, orders } = useSelector(({ orderMyList }) => orderMyList)
 
     useEffect(() => {
         if (!userInfo) {
@@ -28,6 +31,7 @@ const ProfileScreen = ({ history }) => {
                 // If not, call the getUserDetail action to get the user Detail
                 // and set it as user in storage
                 dispatch(getUserDetails('profile'));
+                dispatch(listMyOrders());
             } else {
                 // If the user profile is existed, fill it in
                 setName(user.name);
@@ -104,6 +108,40 @@ const ProfileScreen = ({ history }) => {
         </Col>
         <Col md={9}>
             <h2>My Orders</h2>
+            {loadingOrders ? <Loader /> : errorOrders ? <Message variant="danger">{errorOrders}</Message> : (
+                <Table striped bordered hover responsive className="table-sm">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Paid</th>
+                            <th>Delivered</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders.map((order) => (
+                            <tr key={order._id}>
+                                <td>{order._id}</td>
+                                <td>{formatTimeZone(order.createdAt)}</td>
+                                <td>{order.totalPrice}</td>
+                                <td>{order.isPaid ? formatTimeZone(order.paidAt) : (
+                                    <i className="fas fa-times" style={{ color: "red" }}></i>
+                                )}</td>
+                                <td>{order.isDelivered ? formatTimeZone(order.deliveredAt) : (
+                                    <i className="fas fa-times" style={{ color: "red" }}></i>
+                                )}</td>
+                                <td>
+                                    <LinkContainer to={`/order/${order._id}`}>
+                                        <Button className="btn-sm" variant="light">Details</Button>
+                                    </LinkContainer>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            )}
         </Col>
     </Row>
 }

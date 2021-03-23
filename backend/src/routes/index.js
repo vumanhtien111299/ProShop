@@ -12,6 +12,9 @@ export default (app) => {
     // Prefix path
     app.use('/api', router);
 
+    router.get('/', (req, res) => res.send('Welcome to ProShop...'));
+    router.get('/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID));
+
     // Product routes
     productRoutes(router)
 

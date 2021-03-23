@@ -19,6 +19,11 @@ export default (prefix) => {
     // @access Bearer Authentication
     router.get('/:id', order.getOderItems)
 
+    // @desc Get list order
+    // @route GET /order/
+    // @access Bearer Authentication
+    router.get('/', order.getListOrder);
+
     // @desc Update an order to paid
     // @route PUT /order/:id/pay
     // @access Bearer Authentication
