@@ -11,4 +11,7 @@ export default (prefix) => {
     router.get('/profile', User.getProfileUser)
 
     router.put('/profile/:id', User.updateUserProfile)
+
+    router.get('/', authentication.admin, User.getAllUsers)
+
 }

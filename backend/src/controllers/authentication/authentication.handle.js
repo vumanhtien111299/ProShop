@@ -27,3 +27,17 @@ export const login = async (req, res) => {
     return res.status(status).send({ status, message, data })
 
 }
+
+export const admin = (req, res, next) => {
+    try {
+        if (req.user && req.user.isAdmin) {
+            next()
+        } else {
+            res.status(401)
+            throw new Error('Not authorized as an admin')
+        }
+    } catch (error) {
+        return res.status(401).send({ status: 401, message: 'Unauthorized', data: {} })
+    }
+
+}

@@ -1,4 +1,5 @@
 import * as user from './user.process.js'
+import { User } from '../../models/user.model.js'
 
 export const getProfileUser = async (req, res) => {
     return res.status(200).send({ status: 200, message: 'Get user successful !', data: req.user })
@@ -22,4 +23,9 @@ export const updateUserProfile = async (req, res) => {
     const { status, message, data } = await user.updateUser({ _id: req.params.id, data: updateData })
 
     return res.status(status).send({ status, message, data })
+}
+
+export const getAllUsers = async (req, res) => {
+    const users = await User.find({})
+    res.json(users)
 }
