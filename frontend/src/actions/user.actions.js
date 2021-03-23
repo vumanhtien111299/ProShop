@@ -13,7 +13,10 @@ import {
     USER_REGISTER_SUCCESS,
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_REQUEST,
-    USER_UPDATE_PROFILE_SUCCESS
+    USER_UPDATE_PROFILE_SUCCESS,
+    USER_LIST_REQUEST,
+    USER_LIST_SUCCESS,
+    USER_LIST_FAIL
 } from "../constants/user.constants"
 import { ORDER_LIST_MY_RESET } from '../constants/order.constants.js'
 
@@ -173,6 +176,45 @@ export const updateUserProfile = (user) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: USER_UPDATE_PROFILE_FAIL,
+            payload:
+                error.response
+                    && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+export const listUsers = () => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('jwt');
+
+        dispatch({ type: USER_LIST_REQUEST });
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        }
+
+        const { data } = await axios.get(`/api/users`, config)
+
+        // set user login again to get the new data from other component using userLogin.userInfo
+        // ex: header
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data,
+        });
+
+        dispatch({
+            type: USER_LIST_SUCCESS,
+            payload: data
+        })
+
+        localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error) {
+        dispatch({
+            type: USER_LIST_FAIL,
             payload:
                 error.response
                     && error.response.data.message
