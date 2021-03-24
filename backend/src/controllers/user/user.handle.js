@@ -40,3 +40,23 @@ export const deleteUser = async (req, res) => {
 
     return res.status(status).send({ status, message, data })
 }
+
+export const getUserById = async (req, res) => {
+    const { status, message, data } = await user.getUser(req.params.id)
+
+    return res.status(status).send({ status, message, data })
+}
+
+export const updateUser = async (req, res) => {
+    //if missing information, assign the current user information
+    const updateData = {
+        name: req.body.name || req.user.name,
+        email: req.body.email || req.user.email,
+        isAdmin: req.body.isAdmin = req.user.isAdmin
+
+    }
+
+    const { status, message, data } = await user.updateUserId({ _id: req.params.id, data: updateData })
+
+    return res.status(status).send({ status, message, data })
+}

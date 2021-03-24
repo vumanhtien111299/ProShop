@@ -27,4 +27,14 @@ export default (prefix) => {
     // @route Delete /users/:id
     // @access Bearer Authentication
     router.delete('/:id', authentication.admin, User.deleteUser)
+
+    // @desc Get users
+    // @route Get /users/:id
+    // @access Bearer Authentication
+    router.get('/:id', authentication.admin, User.getUserById)
+
+    // @desc Update user
+    // @route PUT /users/:id
+    // @access Bearer Authentication
+    router.put('/:id', authentication.admin, User.updateUser)
 }

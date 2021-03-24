@@ -106,6 +106,12 @@ export const DeleteUserById = async (id) => {
         if (user) {
             await user.remove()
             response.data = { message: 'User removed' }
+        } else {
+            return {
+                status: 404,
+                message: 'User not found!!',
+                data: {}
+            }
         }
     } catch (error) {
         logger.fail(error.message)
@@ -116,5 +122,65 @@ export const DeleteUserById = async (id) => {
     return response
 }
 
+export const getUser = async (id) => {
+    const response = {
+        status: 200,
+        message: 'Get user successful !!',
+        data: {}
+    };
+    try {
+        const user = await User.findById(id).select('-password')
+        if (user) {
+            response.data = user
+        } else {
+            return {
+                status: 404,
+                message: 'User not found!!',
+                data: {}
+            }
+        }
+    } catch (error) {
+        logger.fail(error.message)
 
+        response.status = 500
+        response.message = error
+    }
+    return response
+}
 
+export const updateUserId = async ({ _id, data }) => {
+    const response = {
+        status: 200,
+        message: 'Update user successful',
+        data: {},
+    };
+
+    try {
+        if (data.email) {
+            const user = await User.findOne({ email: data.email });
+            if (user) {
+                return {
+                    status: 400,
+                    message: 'Email existed',
+                    data: {},
+                };
+            }
+        }
+
+        const updatedUser = await User.findOneAndUpdate({ _id }, data, { new: true });
+        if (!updatedUser) {
+            return {
+                status: 404,
+                message: 'User not existed',
+                data: {},
+            };
+        }
+
+        response.data = updatedUser;
+    } catch (error) {
+        response.status = 500;
+        response.message = error.message;
+    }
+
+    return response;
+};

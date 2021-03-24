@@ -36,6 +36,12 @@ export const ProductDetail = async (id) => {
         if (products) {
             logger.success('Get Detail Product Success')
             logger.log(products)
+        } else {
+            return {
+                status: 404,
+                message: 'Product not found!!',
+                data: {}
+            }
         }
 
     } catch (error) {
