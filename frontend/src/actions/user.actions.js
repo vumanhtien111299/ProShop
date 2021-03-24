@@ -17,7 +17,10 @@ import {
     USER_LIST_REQUEST,
     USER_LIST_SUCCESS,
     USER_LIST_FAIL,
-    USER_LIST_RESET
+    USER_LIST_RESET,
+    USER_DELETE_REQUEST,
+    USER_DELETE_SUCCESS,
+    USER_DELETE_FAIL
 } from "../constants/user.constants"
 import { ORDER_LIST_MY_RESET } from '../constants/order.constants.js'
 
@@ -201,13 +204,6 @@ export const listUsers = () => async (dispatch) => {
 
         const { data } = await axios.get(`/api/users`, config)
 
-        // set user login again to get the new data from other component using userLogin.userInfo
-        // ex: header
-        dispatch({
-            type: USER_LOGIN_SUCCESS,
-            payload: data,
-        });
-
         dispatch({
             type: USER_LIST_SUCCESS,
             payload: data
@@ -217,6 +213,32 @@ export const listUsers = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: USER_LIST_FAIL,
+            payload:
+                error.response
+                    && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}
+
+export const deleteUser = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_DELETE_REQUEST })
+
+        const token = localStorage.getItem('jwt');
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+        }
+
+        const { data } = await axios.delete(`/api/users/${id}`, config)
+
+        dispatch({ type: USER_DELETE_SUCCESS })
+    } catch (error) {
+        dispatch({
+            type: USER_DELETE_FAIL,
             payload:
                 error.response
                     && error.response.data.message

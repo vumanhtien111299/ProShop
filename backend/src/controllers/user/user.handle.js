@@ -33,5 +33,10 @@ export const getAllUsers = async (req, res) => {
         res.status = 500
         res.message = error
     }
+}
 
+export const deleteUser = async (req, res) => {
+    const { status, message, data } = await user.DeleteUserById(req.params.id)
+
+    return res.status(status).send({ status, message, data })
 }

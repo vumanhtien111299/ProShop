@@ -4,13 +4,14 @@ import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
-import { listUsers } from '../actions/user.actions.js'
+import { listUsers, deleteUser } from '../actions/user.actions.js'
 
 const UserListScreen = ({ history }) => {
     const dispatch = useDispatch()
 
     const { loading, error, users } = useSelector(({ userList }) => userList)
     const { userInfo } = useSelector(({ userLogin }) => userLogin)
+    const { success: successDelete } = useSelector(({ userDelete }) => userDelete)
 
     useEffect(() => {
         if (userInfo && userInfo.isAdmin) {
@@ -18,10 +19,12 @@ const UserListScreen = ({ history }) => {
         } else {
             history.push('/login')
         }
-    }, [dispatch, history])
+    }, [dispatch, history, successDelete])
 
     const deleteHandler = (id) => {
-        console.log('delete')
+        if (window.confirm('Are you sure')) {
+            dispatch(deleteUser(id))
+        }
     }
 
     return (
@@ -40,11 +43,13 @@ const UserListScreen = ({ history }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map(user => (
-                                <tr key={user.id}>
+                            {users.map((user) => (
+                                <tr key={user._id}>
                                     <td>{user._id}</td>
                                     <td>{user.name}</td>
-                                    <td><a href={`mailto:${user.email}`}>{user.email}</a></td>
+                                    <td>
+                                        <a href={`mailto:${user.email}`}>{user.email}</a>
+                                    </td>
                                     <td>
                                         {user.isAdmin ? (
                                             <i className='fas fa-check' style={{ color: 'green' }}></i>
@@ -61,8 +66,7 @@ const UserListScreen = ({ history }) => {
                                         <Button
                                             variant='danger'
                                             className='btn-sm'
-                                            onClick={() => deleteHandler(user._id)}
-                                        >
+                                            onClick={() => deleteHandler(user._id)}>
                                             <i className='fas fa-trash'></i>
                                         </Button>
                                     </td>
@@ -71,7 +75,6 @@ const UserListScreen = ({ history }) => {
                         </tbody>
                     </Table>
                 )}
-
         </>
     )
 }

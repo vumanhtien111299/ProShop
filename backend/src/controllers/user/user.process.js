@@ -95,4 +95,26 @@ export const updateUser = async ({ _id, data }) => {
     return response;
 };
 
+export const DeleteUserById = async (id) => {
+    const response = {
+        status: 200,
+        message: 'Delete user successful !!',
+        data: {}
+    };
+    try {
+        const user = await User.findById(id)
+        if (user) {
+            await user.remove()
+            response.data = { message: 'User removed' }
+        }
+    } catch (error) {
+        logger.fail(error.message)
+
+        response.status = 500
+        response.message = error
+    }
+    return response
+}
+
+
 
