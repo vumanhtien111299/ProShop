@@ -5,7 +5,10 @@ import {
     PRODUCT_LIST_FAIL,
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
-    PRODUCT_DETAILS_FAIL
+    PRODUCT_DETAILS_FAIL,
+    PRODUCT_DELETE_REQUEST,
+    PRODUCT_DELETE_SUCCESS,
+    PRODUCT_DELETE_FAIL
 } from '../constants/product.constants.js'
 
 
@@ -51,6 +54,29 @@ export const listProductDetails = (id) => async (dispatch) => {
                     && error.response.data.message
                     ? error.response.data.message
                     : error.message
+        })
+    }
+}
+
+export const deleteProduct = (id) => async (dispatch, getState) => {
+    try {
+        const token = localStorage.getItem('jwt');
+
+        dispatch({ type: PRODUCT_DELETE_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        };
+        // first layer data is from axios
+        await axios.delete(`/api/products/${id}`, config)
+
+        dispatch({ type: PRODUCT_DELETE_SUCCESS });
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_DELETE_FAIL,
+            payload: error.response?.data?.message || error.message,
         })
     }
 }

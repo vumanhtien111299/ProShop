@@ -54,3 +54,30 @@ export const ProductDetail = async (id) => {
     return response
 }
 
+export const DeleteProductById = async (id) => {
+    const response = {
+        status: 200,
+        message: 'Delete product successful !!',
+        data: {}
+    };
+    try {
+        const product = await Product.findById(id)
+        if (product) {
+            await product.remove()
+            response.data = { message: 'Product removed' }
+        } else {
+            return {
+                status: 404,
+                message: 'Product not found!!',
+                data: {}
+            }
+        }
+    } catch (error) {
+        logger.fail(error.message)
+
+        response.status = 500
+        response.message = error
+    }
+    return response
+}
+

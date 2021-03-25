@@ -183,4 +183,4 @@ export const updateUserId = async ({ _id, data }) => {
     }
 
     return response;
-};
+}

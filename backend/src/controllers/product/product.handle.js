@@ -11,3 +11,9 @@ export const ProductsDetail = async (req, res) => {
 
     return res.status(status).send(data)
 }
+
+export const deleteProduct = async (req, res) => {
+    const { status, message, data } = await product.DeleteProductById(req.params.id)
+
+    return res.status(status).send({ status, message, data })
+}

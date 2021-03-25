@@ -96,7 +96,6 @@ export const listMyOrders = () => async (dispatch, getState) => {
         const token = localStorage.getItem('jwt');
 
         const { userLogin: { userInfo } } = getState();
-        console.log(userInfo)
         dispatch({ type: ORDER_LIST_MY_REQUEST })
         const config = {
             headers: {

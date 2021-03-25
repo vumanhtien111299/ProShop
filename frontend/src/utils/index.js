@@ -1,2 +1,3 @@
-export * from './number.js';
-export * from './time.js';
+export * from './number';
+export * from './number';
+export * from './time';

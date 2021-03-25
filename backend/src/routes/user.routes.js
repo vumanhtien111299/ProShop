@@ -20,21 +20,21 @@ export default (prefix) => {
 
     // @desc Get all users
     // @route GET /users
-    // @access Bearer Authentication
+    // @access Private/Admin
     router.get('/', authentication.admin, User.getAllUsers)
 
     // @desc Delete users
     // @route Delete /users/:id
-    // @access Bearer Authentication
+    // @access Private/Admin
     router.delete('/:id', authentication.admin, User.deleteUser)
 
     // @desc Get users
     // @route Get /users/:id
-    // @access Bearer Authentication
+    // @access Private/Admin
     router.get('/:id', authentication.admin, User.getUserById)
 
     // @desc Update user
     // @route PUT /users/:id
-    // @access Bearer Authentication
+    // @access Private/Admin
     router.put('/:id', authentication.admin, User.updateUser)
 }

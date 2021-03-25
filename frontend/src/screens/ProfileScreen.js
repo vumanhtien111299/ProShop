@@ -6,7 +6,7 @@ import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
 import { getUserDetails, updateUserProfile } from '../actions/user.actions.js'
 import { listMyOrders } from '../actions/order.actions.js'
-import { formatTimeZone } from '../utils';
+import { formatTimeZone } from '../utils/index.js'
 
 const ProfileScreen = ({ history }) => {
     const [name, setName] = useState('')
