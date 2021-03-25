@@ -17,7 +17,7 @@ const ProfileScreen = ({ history }) => {
 
     const dispatch = useDispatch()
 
-    const { loading, error: error, user } = useSelector(({ userDetails }) => userDetails)
+    const { loading, error, user } = useSelector(({ userDetails }) => userDetails)
     const { userInfo } = useSelector(({ userLogin }) => userLogin)
     const { success } = useSelector(({ userUpdateProfile }) => userUpdateProfile)
     const { loading: loadingOrders, error: errorOrders, orders } = useSelector(({ orderMyList }) => orderMyList)
