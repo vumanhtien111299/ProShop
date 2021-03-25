@@ -52,8 +52,7 @@ export const updateUser = async (req, res) => {
     const updateData = {
         name: req.body.name || req.user.name,
         email: req.body.email || req.user.email,
-        isAdmin: req.body.isAdmin = req.user.isAdmin
-
+        isAdmin: req.body.isAdmin
     }
 
     const { status, message, data } = await user.updateUserId({ _id: req.params.id, data: updateData })

@@ -156,16 +156,16 @@ export const updateUserId = async ({ _id, data }) => {
     };
 
     try {
-        if (data.email) {
-            const user = await User.findOne({ email: data.email });
-            if (user) {
-                return {
-                    status: 400,
-                    message: 'Email existed',
-                    data: {},
-                };
-            }
-        }
+        // if (data.email) {
+        //     const user = await User.findOne({ email: data.email });
+        //     if (user) {
+        //         return {
+        //             status: 400,
+        //             message: 'Email existed',
+        //             data: {},
+        //         };
+        //     }
+        // }
 
         const updatedUser = await User.findOneAndUpdate({ _id }, data, { new: true });
         if (!updatedUser) {

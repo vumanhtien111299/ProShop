@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
 import FormContainer from '../components/FormContainer.js'
-import { getUserDetails } from '../actions/user.actions.js'
+import { getUserDetails, updateUser } from '../actions/user.actions.js'
+import { USER_UPDATE_RESET } from '../constants/user.constants.js'
 
 const UserEditScreen = ({ match, history }) => {
     const userId = match.params.id
@@ -17,8 +18,14 @@ const UserEditScreen = ({ match, history }) => {
     const dispatch = useDispatch()
 
     const { loading, error, user } = useSelector(({ userDetails }) => userDetails)
+    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = useSelector(({ userUpdate }) => userUpdate)
+
 
     useEffect(() => {
+        if (successUpdate) {
+            dispatch({ type: USER_UPDATE_RESET })
+            history.push('/admin/user-list')
+        }
         if (!user.name || user._id !== userId) {
             dispatch(getUserDetails(userId))
         } else {
@@ -26,10 +33,11 @@ const UserEditScreen = ({ match, history }) => {
             setEmail(user.email)
             setIsAdmin(user.isAdmin)
         }
-    }, [dispatch, user, userId])
+    }, [dispatch, history, user, userId, successUpdate])
 
     const submitHandler = (e) => {
         e.preventDefault()
+        dispatch(updateUser({ _id: userId, name, email, isAdmin }))
 
     }
 
@@ -39,8 +47,12 @@ const UserEditScreen = ({ match, history }) => {
                 Go Back
             </Link>
             <FormContainer>
-                <h1>Update User</h1>
-                {loading ? <Loader /> : error ? (
+                <h1>Edit User</h1>
+                {loadingUpdate && <Loader />}
+                {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
+                {loading ? (
+                    <Loader />
+                ) : error ? (
                     <Message variant='danger'>{error}</Message>
                 ) : (
                     <Form onSubmit={submitHandler}>
