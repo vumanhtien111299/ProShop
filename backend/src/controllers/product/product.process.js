@@ -81,3 +81,57 @@ export const DeleteProductById = async (id) => {
     return response
 }
 
+export const adminCreateProduct = async (data) => {
+    const response = {
+        status: 200,
+        message: 'Create product success !',
+        data: {}
+    };
+    try {
+        const newProduct = await Product.create({
+            name: 'Sample name',
+            price: 0,
+            user: data.user._id,
+            image: '/images/sample.jpg',
+            brand: 'Sample category',
+            countInStock: 0,
+            numReviews: 0,
+            description: 'Sample description'
+        })
+
+        response.data = newProduct
+    } catch (error) {
+        logger.fail(error.message)
+
+        response.status = 500
+        response.message = error.message
+    }
+    return response
+}
+
+
+export const adminUpdateProduct = async (_id, data) => {
+    const response = {
+        status: 200,
+        message: 'Update product success !',
+        data: {}
+    };
+    try {
+        const updatedProduct = await Product.findOneAndUpdate({ _id }, data, { new: true });
+        if (!updatedProduct) {
+            return {
+                status: 404,
+                message: 'Product not existed',
+                data: {},
+            };
+        }
+
+        response.data = updatedProduct;
+    } catch (error) {
+        logger.fail(error.message)
+
+        response.status = 500
+        response.message = error.message
+    }
+    return response
+}

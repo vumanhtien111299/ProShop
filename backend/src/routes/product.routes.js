@@ -24,4 +24,14 @@ export default (prefix) => {
     //@desc   Private/Admin
     router.delete('/:id', authentication.verifyToken, authentication.admin, product.deleteProduct)
 
+    //@desc   Create a product
+    //@route  Post /api/products
+    //@desc   Private/Admin
+    router.post('/', authentication.verifyToken, authentication.admin, product.createProduct)
+
+    //@desc   Update a product
+    //@route  Put /api/products/:id
+    //@desc   Private/Admin
+    router.put('/:id', authentication.verifyToken, authentication.admin, product.updateProduct)
+
 }

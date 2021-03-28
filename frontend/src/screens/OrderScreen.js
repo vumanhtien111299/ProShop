@@ -4,7 +4,7 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { addDecimals, formatTimeZone } from '../utils';
+import { addDecimals, formatTimeZone } from '../utils/index.js';
 import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
 import { getOrderDetails, payOrder } from '../actions/order.actions.js'
