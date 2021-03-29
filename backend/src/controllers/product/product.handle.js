@@ -19,7 +19,7 @@ export const deleteProduct = async (req, res) => {
 }
 
 export const createProduct = async (req, res) => {
-    const { status, message, data } = await product.adminCreateProduct()
+    const { status, message, data } = await product.adminCreateProduct({ _id: req.user._id })
 
     return res.status(status).send({ status, message, data })
 }

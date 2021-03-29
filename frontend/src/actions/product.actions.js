@@ -8,8 +8,12 @@ import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_SUCCESS,
-    PRODUCT_DELETE_FAIL
+    PRODUCT_DELETE_FAIL,
+    PRODUCT_CREATE_REQUEST,
+    PRODUCT_CREATE_SUCCESS,
+    PRODUCT_CREATE_FAIL
 } from '../constants/product.constants.js'
+import { logout } from './user.actions.js'
 
 
 export const listProducts = () => async (dispatch) => {
@@ -58,7 +62,7 @@ export const listProductDetails = (id) => async (dispatch) => {
     }
 }
 
-export const deleteProduct = (id) => async (dispatch, getState) => {
+export const deleteProduct = (id) => async (dispatch) => {
     try {
         const token = localStorage.getItem('jwt');
 
@@ -77,6 +81,35 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         dispatch({
             type: PRODUCT_DELETE_FAIL,
             payload: error.response?.data?.message || error.message,
+        })
+    }
+}
+
+export const createProduct = () => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('jwt');
+
+        dispatch({ type: PRODUCT_CREATE_REQUEST })
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        };
+        // first layer data is from axios
+        const { data: { data } } = await axios.post(`/api/products`, {}, config)
+
+        dispatch({
+            type: PRODUCT_CREATE_SUCCESS,
+            payload: data
+        });
+    } catch (error) {
+        const message = error.response?.data?.message || error.message
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+        dispatch({
+            type: PRODUCT_CREATE_FAIL,
+            payload: message
         })
     }
 }

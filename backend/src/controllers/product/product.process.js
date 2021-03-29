@@ -81,7 +81,7 @@ export const DeleteProductById = async (id) => {
     return response
 }
 
-export const adminCreateProduct = async (data) => {
+export const adminCreateProduct = async (_id, data) => {
     const response = {
         status: 200,
         message: 'Create product success !',
@@ -91,9 +91,10 @@ export const adminCreateProduct = async (data) => {
         const newProduct = await Product.create({
             name: 'Sample name',
             price: 0,
-            user: data.user._id,
+            user: _id,
             image: '/images/sample.jpg',
-            brand: 'Sample category',
+            brand: 'Sample brand',
+            category: 'Sample category',
             countInStock: 0,
             numReviews: 0,
             description: 'Sample description'
