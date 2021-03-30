@@ -25,11 +25,11 @@ const ProductListScreen = ({ history, match }) => {
 
     useEffect(() => {
         dispatch({ type: PRODUCT_CREATE_RESET })
-        if (!userInfo.isAdmin) {
+        if (!userInfo || !userInfo.isAdmin) {
             history.push('/login')
         }
         if (successCreate) {
-            history.push(`/admin/products/${createdProduct._id}/edit`)
+            history.push(`/admin/product/${createdProduct.data._id}/edit`)
         } else {
             dispatch(listProducts())
         }

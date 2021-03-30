@@ -81,12 +81,12 @@ export const DeleteProductById = async (id) => {
     return response
 }
 
-export const adminCreateProduct = async (_id, data) => {
+export const adminCreateProduct = async (_id) => {
     const response = {
         status: 200,
         message: 'Create product success !',
         data: {}
-    };
+    }
     try {
         const newProduct = await Product.create({
             name: 'Sample name',
@@ -111,7 +111,7 @@ export const adminCreateProduct = async (_id, data) => {
 }
 
 
-export const adminUpdateProduct = async (_id, data) => {
+export const adminUpdateProduct = async ({ _id, data }) => {
     const response = {
         status: 200,
         message: 'Update product success !',
@@ -126,7 +126,6 @@ export const adminUpdateProduct = async (_id, data) => {
                 data: {},
             };
         }
-
         response.data = updatedProduct;
     } catch (error) {
         logger.fail(error.message)
