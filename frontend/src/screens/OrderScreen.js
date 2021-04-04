@@ -161,7 +161,7 @@ const OrderScreen = ({ match }) => {
                             </Row>
                         </ListGroup.Item>
 
-                        {!order.idPaid && (
+                        {order.idPaid === false && (
                             <ListGroup.Item>
                                 {loadingPay && <Loader />}
                                 {!sdkReady ? <Loader /> : (

@@ -4,9 +4,12 @@ import {
     ORDER_CREATE_SUCCESS,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
+    ORDER_LIST_FAIL,
     ORDER_LIST_MY_FAIL,
     ORDER_LIST_MY_REQUEST,
     ORDER_LIST_MY_SUCCESS,
+    ORDER_LIST_REQUEST,
+    ORDER_LIST_SUCCESS,
     ORDER_PAY_FAIL,
     ORDER_PAY_REQUEST,
     ORDER_PAY_SUCCESS
@@ -113,6 +116,32 @@ export const listMyOrders = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: ORDER_LIST_MY_FAIL,
+            payload: error.response?.data?.message || error.message,
+        })
+    }
+}
+
+export const listOrders = () => async (dispatch, getState) => {
+    try {
+        const token = localStorage.getItem('jwt');
+
+        const { userLogin: { userInfo } } = getState();
+        dispatch({ type: ORDER_LIST_REQUEST })
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        };
+        // first layer data is from axios
+        const { data: { data } } = await axios.get(`/api/orders`, config)
+
+        dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ORDER_LIST_FAIL,
             payload: error.response?.data?.message || error.message,
         })
     }

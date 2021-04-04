@@ -1,21 +1,14 @@
 import path from 'path'
 import express from 'express'
 import multer from 'multer'
+import * as uploadAws from '../controllers/upload/upload.handle.js'
+import * as authentication from '../controllers/authentication/authentication.handle.js'
+
 const router = express.Router()
 
 export default (prefix) => {
-    const __dirname = path.resolve()
     // Prefix path
-    prefix.use('/uploads', express.static(path.join(__dirname, '/uploads')), router)
-
-    const storage = multer.diskStorage({
-        destination(req, file, cb) {
-            cb(null, 'uploads/')
-        },
-        filename(req, file, cb) {
-            cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
-        }
-    })
+    prefix.use('/uploads', router)
 
     function checkFileType(file, cb) {
         const filetypes = /jpg|jpeg|png/
@@ -27,16 +20,7 @@ export default (prefix) => {
         } else {
             cb('Images only!')
         }
-
     }
-    const upload = multer({
-        storage,
-        fileFilter: function (req, file, cb) {
-            checkFileType(file, cb)
-        }
-    })
 
-    router.post('/', upload.single('image'), (req, res) => {
-        res.send(`/${req.file.path}`)
-    })
+    router.post('/:Id', authentication.verifyToken, multer({}).single('image'), uploadAws.uploadImage)
 }

@@ -54,7 +54,8 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: true,
         default: 0
-    }
+    },
+    isDeleted: { type: Boolean, default: false },
 }, {
     timestamps: true
 })

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
@@ -13,12 +14,12 @@ const ProductEditScreen = ({ match, history }) => {
 
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState({})
     const [brand, setBrand] = useState('')
     const [category, setCategory] = useState('')
     const [countInStock, setCountInStock] = useState(0)
     const [description, setDescription] = useState('')
-    // const [uploading, setUploading] = useState(false)
+    const [uploading, setUploading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -69,7 +70,7 @@ const ProductEditScreen = ({ match, history }) => {
                 brand,
                 category,
                 description,
-                countInStock
+                countInStock,
             })
         )
     }
@@ -81,7 +82,6 @@ const ProductEditScreen = ({ match, history }) => {
             </Link>
             <FormContainer>
                 {
-                    console.log(successCreate),
                     successCreate ? <h1>Create Product</h1> :
                         <h1>Edit Product</h1>
                 }
@@ -122,12 +122,15 @@ const ProductEditScreen = ({ match, history }) => {
                                 onChange={(e) => setImage(e.target.value)}
                             ></Form.Control>
                             <Form.File
+                                type="file"
                                 id='image-file'
                                 label='Choose File'
                                 custom
-                            // onChange={uploadFileHandler}
+                                onChange={(e) => {
+                                    setImage(e.target.files[0])
+                                }}
                             ></Form.File>
-                            {/* {uploading && <Loader />} */}
+                            {uploading && <Loader />}
                         </Form.Group>
 
                         <Form.Group controlId='brand'>

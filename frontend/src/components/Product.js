@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
+import { AWS_FOLDER } from '../config.js'
 import Rating from './Rating'
+
 
 const Product = ({ product }) => {
     return (
         <Card className='my-3 p-3 rounded'>
             <Link to={`/product/${product._id}`}>
-                <Card.Img src={product.image} variant='top' />
+                <img src={`${AWS_FOLDER.IMAGE}${product.image}`, product.image} style={{ width: '220px', height: '300px' }} variant='top' alt="image" />
             </Link>
 
             <Card.Body>

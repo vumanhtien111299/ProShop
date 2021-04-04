@@ -12,7 +12,7 @@ export default (prefix) => {
     // @desc Create new order
     // @route POST /order
     // @access Bearer Authentication
-    router.post('/', order.addOrderItems);
+    router.post('/', order.addOrderItems)
 
     // @desc Get order
     // @route Get /order/:id
@@ -22,7 +22,7 @@ export default (prefix) => {
     // @desc Get list order
     // @route GET /order/
     // @access Bearer Authentication
-    router.get('/', order.getListOrder);
+    router.get('/', order.getListOrder)
 
     // @desc Update an order to paid
     // @route PUT /order/:id/pay

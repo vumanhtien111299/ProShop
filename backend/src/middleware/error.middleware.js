@@ -4,13 +4,16 @@ const notFound = (req, res, next) => {
     next(error)
 }
 
-const errorHandler = (err, req, res, next) => {
-    const status = res.status === 200 ? 500 : res.status
-    res.status(status)
-    res.json({
-        message: err.message,
-        stack: process.env.NODE_ENV === 'production' ? null : err.stack
-    })
-}
+const errorHandler = (err, req, res, _next) => {
+    console.log(err);
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : '';
+
+    return res.status(err.status || 500).send({
+        statusCode: err.status || 500,
+        message: err.stack,
+        data: {}
+    });
+};
 
 export { notFound, errorHandler }

@@ -1,5 +1,9 @@
 import { Product } from '../../models/product.model.js'
 import { logger } from '../../utils/logger.js'
+import md5 from 'md5'
+import { uploadAWS } from '../../common/awn.js'
+import { BUCKET, AWS_FOLDER } from '../../common/enum.js'
+import { sanitizeUpdateData } from './product.validator.js'
 
 
 export const ListProduct = async (filter = {}) => {
@@ -111,14 +115,16 @@ export const adminCreateProduct = async (_id) => {
 }
 
 
-export const adminUpdateProduct = async ({ _id, data }) => {
+export const adminUpdateProduct = async (productId, data, file) => {
     const response = {
         status: 200,
         message: 'Update product success !',
         data: {}
     };
     try {
-        const updatedProduct = await Product.findOneAndUpdate({ _id }, data, { new: true });
+        console.log(file)
+        const updateData = sanitizeUpdateData(data)
+        const updatedProduct = await Product.findOneAndUpdate({ _id: productId }, updateData, { new: true });
         if (!updatedProduct) {
             return {
                 status: 404,
@@ -126,6 +132,9 @@ export const adminUpdateProduct = async ({ _id, data }) => {
                 data: {},
             };
         }
+        updatedProduct.image = `${md5(Date.now())}.${md5(file.buffer)}.${file.originalname.split('.').pop()}`
+        await uploadAWS(BUCKET, `${AWS_FOLDER.IMAGE}${updatedProduct.image}`, file.buffer)
+        await updatedProduct.save()
         response.data = updatedProduct;
     } catch (error) {
         logger.fail(error.message)

@@ -1,4 +1,5 @@
 import express from 'express'
+import multer from 'multer'
 import *  as product from '../controllers/product/product.handle.js'
 import * as authentication from '../controllers/authentication/authentication.handle.js'
 
@@ -32,6 +33,6 @@ export default (prefix) => {
     //@desc   Update a product
     //@route  Put /api/products/:id
     //@desc   Private/Admin
-    router.put('/:id', authentication.verifyToken, authentication.admin, product.updateProduct)
+    router.put('/:id', authentication.verifyToken, authentication.admin, multer({}).single('image'), product.updateProduct)
 
 }

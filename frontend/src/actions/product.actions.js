@@ -126,6 +126,42 @@ export const updateProduct = (product) => async (dispatch) => {
         const token = localStorage.getItem('jwt');
 
         dispatch({ type: PRODUCT_UPDATE_REQUEST })
+        console.log(product)
+
+        const data1 = new FormData()
+        data1.append('image', product.image)
+        data1.append('name', product.name)
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        }
+        // first layer data is from axios
+        const { data: { data } } = await axios.put(`/api/products/${product._id}`, data1, config)
+
+        dispatch({
+            type: PRODUCT_UPDATE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        const message = error.response?.data?.message || error.message
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+        dispatch({
+            type: PRODUCT_UPDATE_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const updateImage = (product) => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('jwt');
+
+        dispatch({ type: PRODUCT_UPDATE_REQUEST })
         const config = {
             headers: {
                 'Content-Type': 'application/json',
