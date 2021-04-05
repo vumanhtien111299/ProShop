@@ -144,3 +144,53 @@ export const adminUpdateProduct = async (productId, data, file) => {
     }
     return response
 }
+
+export const createProductReview = async (productId, bodyData) => {
+    const response = {
+        status: 200,
+        message: 'Update product success !',
+        data: {}
+    };
+    try {
+        const product = await Product.findById({ _id: productId })
+        if (!product) {
+            return {
+                status: 404,
+                message: 'Product not existed',
+                data: {},
+            };
+        } else {
+            const alreadyReviewed = product.reviews.find(
+                (r) => r.user && r.user.toString() === bodyData.user.toString()
+            )
+            if (alreadyReviewed) {
+                return {
+                    status: 400,
+                    message: 'Product already reviewed',
+                    data: {},
+                };
+            }
+            const review = {
+                name: bodyData.name,
+                rating: Number(bodyData.rating),
+                comment: bodyData.comment,
+                user: bodyData.user
+            }
+            product.reviews.push(review)
+
+            product.numReview = product.reviews.length
+
+            product.rating =
+                product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length
+            await product.save()
+        }
+
+        response.data = product;
+    } catch (error) {
+        logger.fail(error.message)
+
+        response.status = 500
+        response.message = error.message
+    }
+    return response
+}

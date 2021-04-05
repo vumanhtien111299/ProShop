@@ -25,17 +25,19 @@ export const createProduct = async (req, res) => {
 }
 
 export const updateProduct = async (req, res) => {
-    //if missing information, assign the current user information
-    // const updateData = {
-    //     name: req.body.name || req.product.name,
-    //     price: req.body.price || req.product.price,
-    //     description: req.body.description || req.product.description,
-    //     image: req.body.image,
-    //     brand: req.body.brand || req.product.brand,
-    //     category: req.body.category || req.product.category,
-    //     countInStock: req.body.countInStock || req.product.countInStock
-    // }
     const { status, message, data } = await product.adminUpdateProduct(req.params.id, req.body, req.file)
+
+    return res.status(status).send({ status, message, data })
+}
+
+export const createNewReview = async (req, res) => {
+    const dataCreate = {
+        name: req.user.name,
+        rating: req.body.rating,
+        comment: req.body.comment,
+        user: req.user._id
+    }
+    const { status, message, data } = await product.createProductReview(req.params.id, dataCreate)
 
     return res.status(status).send({ status, message, data })
 }

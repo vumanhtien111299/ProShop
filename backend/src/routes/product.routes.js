@@ -35,4 +35,9 @@ export default (prefix) => {
     //@desc   Private/Admin
     router.put('/:id', authentication.verifyToken, authentication.admin, multer({}).single('image'), product.updateProduct)
 
+    //@desc   Create new a reviews
+    //@route  POST /api/products/:id
+    //@desc   Private/Admin
+    router.post('/:id/reviews', authentication.verifyToken, product.createNewReview)
+
 }
