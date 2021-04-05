@@ -93,6 +93,33 @@ export const updateOrder = async (orderId, data) => {
     return response
 }
 
+export const updateOrderDelivered = async (orderId, data) => {
+    const response = {
+        status: 200,
+        message: 'Update order successful',
+        data: {}
+    }
+
+    try {
+        const order = await Order.findOneAndUpdate({ _id: orderId }, data, { new: true })
+        if (order) {
+            response.data = order
+        } else {
+            return {
+                status: 400,
+                message: 'Order not found',
+                data: {}
+            }
+        }
+    } catch (error) {
+        logger.fail(error.message)
+
+        response.status = 500
+        response.message = error.message
+    }
+    return response
+}
+
 export const getListOrderFilter = async (filter = {}) => {
     const response = {
         status: 200,

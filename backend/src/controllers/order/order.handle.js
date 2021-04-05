@@ -29,6 +29,16 @@ export const updateOrderToPay = async (req, res) => {
     return res.status(status).send({ status, message, data })
 }
 
+export const updateOrderToDelivered = async (req, res) => {
+    const updateData = {
+        isDelivered: true,
+        deliveredAt: new Date(),
+    }
+
+    const { status, message, data } = await order.updateOrderDelivered(req.params.id, updateData)
+    return res.status(status).send({ status, message, data })
+}
+
 export const getListOrder = async (req, res) => {
     const filter = queryBuilder(req.query)
     const { status, message, data } = await order.getListOrderFilter(filter)

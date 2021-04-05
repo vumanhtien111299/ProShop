@@ -2,6 +2,9 @@ import axios from 'axios'
 import {
     ORDER_CREATE_REQUEST,
     ORDER_CREATE_SUCCESS,
+    ORDER_DELIVER_FAIL,
+    ORDER_DELIVER_REQUEST,
+    ORDER_DELIVER_SUCCESS,
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
     ORDER_LIST_FAIL,
@@ -93,6 +96,32 @@ export const payOrder = (orderId, paymentResult) => async (dispatch) => {
     }
 }
 
+export const deliverOrder = (order) => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('jwt');
+
+        dispatch({ type: ORDER_DELIVER_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        };
+        // first layer data is from axios
+        const { data: { data } } = await axios.put(`/api/orders/${order._id}/deliver`, {}, config);
+
+        dispatch({
+            type: ORDER_DELIVER_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: ORDER_DELIVER_FAIL,
+            payload: error.response?.data?.message || error.message,
+        })
+    }
+}
+
 
 export const listMyOrders = () => async (dispatch, getState) => {
     try {
@@ -125,7 +154,6 @@ export const listOrders = () => async (dispatch, getState) => {
     try {
         const token = localStorage.getItem('jwt');
 
-        const { userLogin: { userInfo } } = getState();
         dispatch({ type: ORDER_LIST_REQUEST })
         const config = {
             headers: {
