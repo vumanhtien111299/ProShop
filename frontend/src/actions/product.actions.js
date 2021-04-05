@@ -14,7 +14,10 @@ import {
     PRODUCT_CREATE_FAIL,
     PRODUCT_UPDATE_REQUEST,
     PRODUCT_UPDATE_SUCCESS,
-    PRODUCT_UPDATE_FAIL
+    PRODUCT_UPDATE_FAIL,
+    PRODUCT_CREATE_REVIEW_REQUEST,
+    PRODUCT_CREATE_REVIEW_SUCCESS,
+    PRODUCT_CREATE_REVIEW_FAIL
 } from '../constants/product.constants.js'
 import { logout } from './user.actions.js'
 
@@ -126,11 +129,10 @@ export const updateProduct = (product) => async (dispatch) => {
         const token = localStorage.getItem('jwt');
 
         dispatch({ type: PRODUCT_UPDATE_REQUEST })
-        console.log(product)
 
-        const data1 = new FormData()
-        data1.append('image', product.image)
-        data1.append('name', product.name)
+        const dataImage = new FormData()
+        dataImage.append('image', product.image)
+        dataImage.append('name', product.name)
 
         const config = {
             headers: {
@@ -139,7 +141,7 @@ export const updateProduct = (product) => async (dispatch) => {
             },
         }
         // first layer data is from axios
-        const { data: { data } } = await axios.put(`/api/products/${product._id}`, data1, config)
+        const { data: { data } } = await axios.put(`/api/products/${product._id}`, dataImage, config)
 
         dispatch({
             type: PRODUCT_UPDATE_SUCCESS,
@@ -157,11 +159,12 @@ export const updateProduct = (product) => async (dispatch) => {
     }
 }
 
-export const updateImage = (product) => async (dispatch) => {
+export const createProductReview = (productId, review) => async (dispatch) => {
     try {
         const token = localStorage.getItem('jwt');
 
-        dispatch({ type: PRODUCT_UPDATE_REQUEST })
+        dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST })
+
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -169,11 +172,10 @@ export const updateImage = (product) => async (dispatch) => {
             },
         }
         // first layer data is from axios
-        const { data: { data } } = await axios.put(`/api/products/${product._id}`, product, config)
+        await axios.post(`/api/products/${productId}/reviews`, review, config)
 
         dispatch({
-            type: PRODUCT_UPDATE_SUCCESS,
-            payload: data
+            type: PRODUCT_CREATE_REVIEW_SUCCESS,
         })
     } catch (error) {
         const message = error.response?.data?.message || error.message
@@ -181,7 +183,7 @@ export const updateImage = (product) => async (dispatch) => {
             dispatch(logout())
         }
         dispatch({
-            type: PRODUCT_UPDATE_FAIL,
+            type: PRODUCT_CREATE_REVIEW_FAIL,
             payload: message
         })
     }
