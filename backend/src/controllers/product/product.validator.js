@@ -29,3 +29,27 @@ export const sanitizeUpdateData = (data) => {
     }
     return result
 }
+
+export const keywordData = (data) => {
+    const result = {}
+    if (data.keyword) {
+        result.keyword = { $regex: `.*${data.name}.*`, $options: 'i' };
+    }
+    if (data.brand) {
+        result.brand = { $regex: `.*${data.brand}.*`, $options: 'i' };
+    }
+    if (data.rating) {
+        result.rating = data.rating
+    }
+    return result
+}
+  // const keywordData = {
+    //     keyword: req.query.keyword
+    //         ? {
+    //             name: {
+    //                 $regex: req.query.keyword,
+    //                 $options: 'i'
+    //             }
+    //         }
+    //         : {}
+    // }

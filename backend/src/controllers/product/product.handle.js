@@ -1,9 +1,49 @@
 import * as product from './product.process.js'
+import { keywordData } from './product.validator.js'
+import { Product } from '../../models/product.model.js'
+
+
+// export const List = async (req, res) => {
+//     // const keywordData = {
+//     //     keyword: req.query.keyword
+//     //         ? {
+//     //             name: {
+//     //                 $regex: req.query.keyword,
+//     //                 $options: 'i'
+//     //             }
+//     //         }
+//     //         : {}
+//     // }
+//     const query = keywordData(req.query)
+
+//     const { status, message, data } = await product.ListProduct(query)
+//     return res.status(status).send({ status, message, data })
+// }
 
 export const List = async (req, res) => {
-    const { data, status } = await product.ListProduct()
+    try {
+        const pageSize = 10
+        const page = Number(req.query.pageNumber) || 1
 
-    return res.status(status).send(data)
+        const keyword = req.query.keyword
+            ? {
+                name: {
+                    $regex: req.query.keyword,
+                    $options: 'i',
+                },
+            }
+            : {}
+
+        const count = await Product.countDocuments({ ...keyword })
+        const products = await Product.find({ ...keyword })
+            .limit(pageSize)
+            .skip(pageSize * (page - 1))
+
+        res.json({ products, page, pages: Math.ceil(count / pageSize) })
+    } catch (error) {
+
+    }
+
 }
 
 export const ProductsDetail = async (req, res) => {

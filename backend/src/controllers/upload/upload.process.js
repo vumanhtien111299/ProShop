@@ -12,7 +12,6 @@ export const uploadService = async ({ Id, file }) => {
         data: {}
     }
     try {
-        console.log(file)
         const product = await Product.findOne({ _id: Id, isDeleted: false })
         if (!product) {
             return {

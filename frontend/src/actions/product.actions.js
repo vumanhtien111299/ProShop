@@ -20,13 +20,18 @@ import {
     PRODUCT_CREATE_REVIEW_FAIL
 } from '../constants/product.constants.js'
 import { logout } from './user.actions.js'
+import qs from 'qs'
 
 
-export const listProducts = () => async (dispatch) => {
+export const listProducts = (keyword = '') => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST })
-
-        const { data } = await axios.get('/api/products')
+        // const query = qs.stringify(filter)
+        // let endpoint = `/api/products`
+        // if (query) {
+        //     endpoint += `${keyword}&${query}`
+        // }
+        const { data } = await axios.get(`/api/products?keyword=${keyword}`)
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,

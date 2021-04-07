@@ -6,18 +6,17 @@ import { BUCKET, AWS_FOLDER } from '../../common/enum.js'
 import { sanitizeUpdateData } from './product.validator.js'
 
 
-export const ListProduct = async (filter = {}) => {
+export const ListProduct = async (filter) => {
     const response = {
         status: 200,
         message: 'Showing list Product',
         data: {}
     };
     try {
-        const products = await Product.find(filter)
+        const products = await Product.find({ ...filter })
         response.data = products || []
 
         logger.success('Get List success')
-        // logger.log(products)
     } catch (error) {
         logger.fail(error.message)
 
@@ -122,7 +121,6 @@ export const adminUpdateProduct = async (productId, data, file) => {
         data: {}
     };
     try {
-        console.log(file)
         const updateData = sanitizeUpdateData(data)
         const updatedProduct = await Product.findOneAndUpdate({ _id: productId }, updateData, { new: true });
         if (!updatedProduct) {

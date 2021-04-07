@@ -5,7 +5,6 @@ const notFound = (req, res, next) => {
 }
 
 const errorHandler = (err, req, res, _next) => {
-    console.log(err);
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : '';
 

@@ -38,7 +38,6 @@ export const createNewUser = async (data) => {
                 data: {},
             };
         }
-        console.log(data)
         const newUser = await User.create({
             name: data.name,
             email: data.email,
