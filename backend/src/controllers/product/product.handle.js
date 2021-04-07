@@ -22,7 +22,7 @@ import { Product } from '../../models/product.model.js'
 
 export const List = async (req, res) => {
     try {
-        const pageSize = 10
+        const pageSize = 2
         const page = Number(req.query.pageNumber) || 1
 
         const keyword = req.query.keyword
@@ -41,9 +41,9 @@ export const List = async (req, res) => {
 
         res.json({ products, page, pages: Math.ceil(count / pageSize) })
     } catch (error) {
-
+        res.status = 500
+        res.message = error.message
     }
-
 }
 
 export const ProductsDetail = async (req, res) => {
