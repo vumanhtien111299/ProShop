@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 import { listProducts } from '../actions/product.actions.js'
+import ProductCarousel from '../components/ProductCarousel.js'
+import Meta from '../components/Meta.js'
 import Product from '../components/Product.js'
 import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
@@ -16,7 +19,6 @@ const HomeScreen = ({ match }) => {
 
     const { loading, error, products, page, pages } = useSelector(({ productList }) => productList)
 
-    // const [filter, setFilter] = useState('')
 
     useEffect(() => {
         dispatch(listProducts(keyword, pageNumber))
@@ -24,6 +26,14 @@ const HomeScreen = ({ match }) => {
 
     return (
         <>
+            <Meta />
+            {!keyword ? (
+                <ProductCarousel />
+            ) : (
+                <Link to='/' className='btn btn-light'>
+                    Go Back
+                </Link>
+            )}
             <h1>Later Products</h1>
             {loading ? (
                 <Loader />

@@ -2,24 +2,6 @@ import * as product from './product.process.js'
 import { keywordData } from './product.validator.js'
 import { Product } from '../../models/product.model.js'
 
-
-// export const List = async (req, res) => {
-//     // const keywordData = {
-//     //     keyword: req.query.keyword
-//     //         ? {
-//     //             name: {
-//     //                 $regex: req.query.keyword,
-//     //                 $options: 'i'
-//     //             }
-//     //         }
-//     //         : {}
-//     // }
-//     const query = keywordData(req.query)
-
-//     const { status, message, data } = await product.ListProduct(query)
-//     return res.status(status).send({ status, message, data })
-// }
-
 export const List = async (req, res) => {
     try {
         const pageSize = 2
@@ -44,6 +26,12 @@ export const List = async (req, res) => {
         res.status = 500
         res.message = error.message
     }
+}
+
+export const TopProducts = async (req, res) => {
+    const { status, data } = await product.getTopProducts()
+
+    return res.status(status).send(data)
 }
 
 export const ProductsDetail = async (req, res) => {

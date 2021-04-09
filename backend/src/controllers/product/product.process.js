@@ -6,26 +6,26 @@ import { BUCKET, AWS_FOLDER } from '../../common/enum.js'
 import { sanitizeUpdateData } from './product.validator.js'
 
 
-export const ListProduct = async (filter) => {
-    const response = {
-        status: 200,
-        message: 'Showing list Product',
-        data: {}
-    };
-    try {
-        const products = await Product.find({ ...filter })
-        response.data = products || []
+// export const ListProduct = async (filter) => {
+//     const response = {
+//         status: 200,
+//         message: 'Showing list Product',
+//         data: {}
+//     };
+//     try {
+//         const products = await Product.find({ ...filter })
+//         response.data = products || []
 
-        logger.success('Get List success')
-    } catch (error) {
-        logger.fail(error.message)
+//         logger.success('Get List success')
+//     } catch (error) {
+//         logger.fail(error.message)
 
-        response.status = 500
-        response.message = error.message
+//         response.status = 500
+//         response.message = error.message
 
-    }
-    return response
-}
+//     }
+//     return response
+// }
 
 export const ProductDetail = async (id) => {
     const response = {
@@ -184,6 +184,35 @@ export const createProductReview = async (productId, bodyData) => {
         }
 
         response.data = product;
+    } catch (error) {
+        logger.fail(error.message)
+
+        response.status = 500
+        response.message = error.message
+    }
+    return response
+}
+
+export const getTopProducts = async () => {
+    const response = {
+        status: 200,
+        message: 'Get top product success !',
+        data: {}
+    };
+    try {
+        const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+
+        if (products) {
+            response.data = { message: 'Get Top Product Success' }
+        } else {
+            return {
+                status: 404,
+                message: 'Product not found!!',
+                data: {}
+            }
+        }
+
+        response.data = products;
     } catch (error) {
         logger.fail(error.message)
 

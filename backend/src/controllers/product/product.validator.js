@@ -32,7 +32,7 @@ export const sanitizeUpdateData = (data) => {
 
 export const keywordData = (data) => {
     const result = {}
-    if (data.keyword) {
+    if (data.name) {
         result.keyword = { $regex: `.*${data.name}.*`, $options: 'i' };
     }
     if (data.brand) {

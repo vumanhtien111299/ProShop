@@ -10,6 +10,11 @@ export default (prefix) => {
     //prefix path
     prefix.use('/products', router)
 
+    //@desc   Get top products
+    //@route  Get /api/products/top
+    //@desc   Private/Admin
+    router.get('/top', product.TopProducts)
+
     //@desc   Fetch all products
     //@route  GET /api/products
     //@desc   Fetch all products
@@ -39,5 +44,6 @@ export default (prefix) => {
     //@route  POST /api/products/:id
     //@desc   Private/Admin
     router.post('/:id/reviews', authentication.verifyToken, product.createNewReview)
+
 
 }

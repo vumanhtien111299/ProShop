@@ -1,12 +1,13 @@
-import Rating from '../components/Rating'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import { listProductDetails, createProductReview } from '../actions/product.actions.js'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/product.constants.js'
+import Rating from '../components/Rating.js'
+import Message from '../components/Message.js'
+import Loader from '../components/Loader.js'
+import Meta from '../components/Meta.js'
 
 
 const ProductScreen = ({ history, match }) => {
@@ -50,6 +51,7 @@ const ProductScreen = ({ history, match }) => {
             <Link className='btn btn-light my-3' to='/'>Go Back</Link>
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <>
+                    <Meta title={product.name} />
                     <Row>
                         <Col md={6}>
                             <Image src={product.image} alt={product.name} fluid />

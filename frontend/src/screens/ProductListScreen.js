@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col, Pagination } from 'react-bootstrap'
+import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts, deleteProduct, createProduct } from '../actions/product.actions.js'
 import { PRODUCT_CREATE_RESET } from '../constants/product.constants'
