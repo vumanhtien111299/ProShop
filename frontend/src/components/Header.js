@@ -23,7 +23,7 @@ const Header = () => {
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Route render={({ history }) => <SearchBox history={history} />} /> 
+                        <Route render={({ history }) => <SearchBox history={history} />} />
                         <Nav className="ml-auto">
                             <LinkContainer to="/cart">
                                 <Nav.Link>
@@ -57,6 +57,23 @@ const Header = () => {
                                         <NavDropdown.Item>Orders</NavDropdown.Item>
                                     </LinkContainer>
                                 </NavDropdown>
+                            )}
+                            <LinkContainer to="/chat">
+                                <Nav.Link>
+                                    <i className="fas fa-sms">SMS</i>
+                                </Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer to="/feedback">
+                                <Nav.Link>
+                                    <i className="fab fa-rocketchat">FeedBack</i>
+                                </Nav.Link>
+                            </LinkContainer>
+                            {userInfo && userInfo.isAdmin && (
+                                <LinkContainer to="/feedback">
+                                    <Nav.Link>
+                                        <i className="fas fa-chart-bar">Chart</i>
+                                    </Nav.Link>
+                                </LinkContainer>
                             )}
                         </Nav>
                     </Navbar.Collapse>

@@ -6,15 +6,45 @@ import { BUCKET, AWS_FOLDER } from '../../common/enum.js'
 import { sanitizeUpdateData } from './product.validator.js'
 
 
-// export const ListProduct = async (filter) => {
+// export const ListProduct = async (filter = {}, limit, skip) => {
 //     const response = {
 //         status: 200,
 //         message: 'Showing list Product',
 //         data: {}
 //     };
 //     try {
-//         const products = await Product.find({ ...filter })
-//         response.data = products || []
+//         const filterProduct = {
+//             ...filter,
+//             isDeleted: false,
+//         }
+//         const total = await Product.countDocuments(filterProduct)
+//         console.log('----total---', total)
+
+//         const products = await Product.find(filterProduct)
+//             .limit(limit)
+//             .skip(skip)
+//         console.log('---products---', products)
+//         if (limit === -1) {
+//             const fullProducts = await Product.find(filterProduct)
+//             console.log('---fullProducts---', fullProducts)
+
+
+//             response.data = {
+//                 total: fullProducts.length,
+//                 limit: 0,
+//                 skip: 0,
+//                 totalPage: 1,
+//                 fullProducts
+//             }
+//         } else {
+//             response.data = {
+//                 total,
+//                 limit,
+//                 skip,
+//                 totalPage: Math.ceil(total / limit),
+//                 products,
+//             }
+//         }
 
 //         logger.success('Get List success')
 //     } catch (error) {

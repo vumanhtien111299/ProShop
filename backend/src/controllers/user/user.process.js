@@ -1,6 +1,10 @@
 import { User } from '../../models/user.model.js'
 import { logger } from '../../utils/logger.js'
-import { accessToken } from '../../utils/token.js';
+import { accessToken } from '../../utils/token.js'
+import { BUCKET, AWS_FOLDER } from '../../common/enum.js'
+import { uploadAWS } from '../../common/awn.js'
+import md5 from 'md5'
+
 
 export const get = async (filter = {}) => {
     const response = {
@@ -182,4 +186,36 @@ export const updateUserId = async ({ _id, data }) => {
     }
 
     return response;
+}
+
+export const uploadUserAvatar = async ({ userId, avatar }) => {
+    const response = {
+        status: 200,
+        message: 'Upload avatar successful',
+        data: {},
+    };
+
+    try {
+        const user = await User.findOne({ _id: userId })
+            .select('email profile createdAt')
+        // .populate({ path: 'profile.faculty', select: 'name isActive isDeleted' })
+        if (!user) {
+            return {
+                status: 404,
+                message: 'User not found',
+                data: {},
+            }
+        }
+
+        // avatarPath: first-lastName.hash(date).mimetype
+        user.avatar = `${md5(Date.now())}.${md5(avatar.buffer)}.${avatar.originalname.split('.').pop()}`
+        await uploadAWS(BUCKET, `${AWS_FOLDER.IMAGE}${user.avatar}`, avatar.buffer)
+
+        response.data = await user.save()
+    } catch (err) {
+        response.status = 500
+        response.message = err.message
+    }
+
+    return response
 }

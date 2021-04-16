@@ -1,4 +1,5 @@
 import axios from 'axios'
+import imageCompression from 'browser-image-compression'
 import {
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
@@ -190,6 +191,50 @@ export const updateUserProfile = (user) => async (dispatch) => {
                     ? error.response.data.message
                     : error.message
         })
+    }
+}
+
+export const uploadUserAvatarAction = ({ id, file }) => async (dispatch) => {
+    try {
+        dispatch({ type: USER_UPDATE_PROFILE_REQUEST })
+        const token = localStorage.getItem('jwt')
+
+        const uploadAvatar = await imageCompression(file, {
+            maxSizeMB: 0.1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        });
+
+        const payload = new FormData();
+        payload.append('avatar', uploadAvatar);
+
+        const { data: { data } } = await axios.post(`/api/users/${id}/avatar`, payload, {
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data,
+        });
+        localStorage.setItem('user', JSON.stringify(data));
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data,
+        });
+
+        dispatch({
+            type: USER_UPDATE_PROFILE_SUCCESS,
+            payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: USER_UPDATE_PROFILE_FAIL,
+            payload: error.response?.data?.message || error.message,
+        });
     }
 }
 

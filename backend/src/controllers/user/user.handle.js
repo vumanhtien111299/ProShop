@@ -59,3 +59,9 @@ export const updateUser = async (req, res) => {
 
     return res.status(status).send({ status, message, data })
 }
+
+export const uploadAvatar = async (req, res) => {
+    const { status, message, data } = await user.uploadUserAvatar({ userId: req.params.id, avatar: req.file })
+
+    return res.status(status).send({ status, message, data })
+};

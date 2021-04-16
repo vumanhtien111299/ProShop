@@ -30,26 +30,16 @@ export const sanitizeUpdateData = (data) => {
     return result
 }
 
-export const keywordData = (data) => {
+export const keywordData = (query) => {
     const result = {}
-    if (data.name) {
-        result.keyword = { $regex: `.*${data.name}.*`, $options: 'i' };
+    if (query.name) {
+        result.name = { $regex: `.*${query.name}.*`, $options: 'i' };
     }
-    if (data.brand) {
-        result.brand = { $regex: `.*${data.brand}.*`, $options: 'i' };
+    if (query.brand) {
+        result.brand = { $regex: `.*${query.brand}.*`, $options: 'i' };
     }
-    if (data.rating) {
-        result.rating = data.rating
+    if (query.rating) {
+        result.rating = query.rating
     }
     return result
 }
-  // const keywordData = {
-    //     keyword: req.query.keyword
-    //         ? {
-    //             name: {
-    //                 $regex: req.query.keyword,
-    //                 $options: 'i'
-    //             }
-    //         }
-    //         : {}
-    // }
