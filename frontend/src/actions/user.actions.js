@@ -27,6 +27,7 @@ import {
     USER_UPDATE_FAIL
 } from "../constants/user.constants"
 import { ORDER_LIST_MY_RESET } from '../constants/order.constants.js'
+import qs from 'qs'
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -238,7 +239,7 @@ export const uploadUserAvatarAction = ({ id, file }) => async (dispatch) => {
     }
 }
 
-export const listUsers = () => async (dispatch) => {
+export const listUsers = (filter) => async (dispatch) => {
     try {
         const token = localStorage.getItem('jwt');
 
@@ -249,8 +250,12 @@ export const listUsers = () => async (dispatch) => {
                 'Authorization': `Bearer ${token}`
             },
         }
-
-        const { data } = await axios.get(`/api/users`, config)
+        const query = qs.stringify(filter);
+        let endpoint = `/api/users`
+        if (query) {
+            endpoint += `?${query}`;
+        }
+        const { data } = await axios.get(endpoint, config)
 
         dispatch({
             type: USER_LIST_SUCCESS,

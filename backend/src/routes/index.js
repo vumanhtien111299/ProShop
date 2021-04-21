@@ -3,6 +3,7 @@ import productRoutes from './product.routes.js'
 import userRoutes from './user.routes.js'
 import orderRoutes from './order.routes.js'
 import uploadRoutes from './upload.routes.js'
+import chatRoutes from './chat.routes.js'
 import *  as User from '../controllers/user/user.handle.js'
 import * as authentication from '../controllers/authentication/authentication.handle.js'
 
@@ -27,6 +28,9 @@ export default (app) => {
 
     //Upload routes
     uploadRoutes(router)
+
+    //Chat routes
+    chatRoutes(router)
 
     // @desc Login
     // @route POST /login

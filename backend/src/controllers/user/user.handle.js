@@ -1,5 +1,6 @@
 import * as user from './user.process.js'
 import { User } from '../../models/user.model.js'
+import { queryBuilder } from './user.validator.js'
 
 export const getProfileUser = async (req, res) => {
     return res.status(200).send({ status: 200, message: 'Get user successful !', data: req.user })
@@ -26,13 +27,10 @@ export const updateUserProfile = async (req, res) => {
 }
 
 export const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find({})
-        res.json(users)
-    } catch (error) {
-        res.status = 500
-        res.message = error
-    }
+    const query = queryBuilder(req.query)
+    const { status, message, data } = await user.getUsersService(query, req.user)
+
+    return res.status(status).send({ status, message, data })
 }
 
 export const deleteUser = async (req, res) => {

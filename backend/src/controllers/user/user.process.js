@@ -24,6 +24,22 @@ export const get = async (filter = {}) => {
     return response
 }
 
+export const getUsersService = async (filter = {}, currentUser) => {
+    const response = {
+        status: 200,
+        message: 'Get list user successful !!',
+        data: {}
+    };
+    try {
+        const users = await User.find({ ...filter, _id: { $ne: currentUser._id } })
+        response.data = users
+    } catch (error) {
+        response.status = 500
+        response.message = error
+    }
+    return response
+}
+
 
 export const createNewUser = async (data) => {
     const response = {

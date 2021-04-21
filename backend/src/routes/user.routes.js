@@ -21,8 +21,8 @@ export default (prefix) => {
 
     // @desc Get all users
     // @route GET /users
-    // @access Private/Admin
-    router.get('/', authentication.admin, User.getAllUsers)
+    // @access Bearer Authentication
+    router.get('/', authentication.verifyToken, User.getAllUsers)
 
     // @desc Delete users
     // @route Delete /users/:id

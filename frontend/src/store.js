@@ -28,6 +28,7 @@ import {
     orderListReducer,
     orderDeliverReducer
 } from './reducers/order.reducer.js'
+import { chatReducer } from './reducers/chat.reducers.js'
 
 const reducer = combineReducers({
     productList: productListReducer,
@@ -54,6 +55,8 @@ const reducer = combineReducers({
     orderDeliver: orderDeliverReducer,
     orderMyList: orderMyListReducer,
     orderList: orderListReducer,
+
+    chat: chatReducer
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
