@@ -10,6 +10,7 @@ const ShippingScreen = ({ history }) => {
 
     const [address, setAddress] = useState(shippingAddress.address)
     const [city, setCity] = useState(shippingAddress.city)
+    const [phoneNumber, setPhoneNumber] = useState(shippingAddress.phoneNumber)
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode)
     const [country, setCountry] = useState(shippingAddress.country)
 
@@ -17,7 +18,7 @@ const ShippingScreen = ({ history }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(saveShippingAddress({ address, city, postalCode, country }))
+        dispatch(saveShippingAddress({ address, city, phoneNumber, postalCode, country }))
         history.push('/payment')
     }
 
@@ -43,6 +44,17 @@ const ShippingScreen = ({ history }) => {
                     placeholder='Enter city'
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
+                    required={true}
+                ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='phoneNumber'>
+                <Form.Label>Phone Number</Form.Label>
+                <Form.Control
+                    type='phoneNumber'
+                    placeholder='Enter Phone Number'
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                     required={true}
                 ></Form.Control>
             </Form.Group>

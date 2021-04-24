@@ -4,6 +4,7 @@ import { accessToken } from '../../utils/token.js'
 import { BUCKET, AWS_FOLDER } from '../../common/enum.js'
 import { uploadAWS } from '../../common/awn.js'
 import md5 from 'md5'
+import { mailer } from '../../common/mailer.js'
 
 
 export const get = async (filter = {}) => {
@@ -62,6 +63,17 @@ export const createNewUser = async (data) => {
             name: data.name,
             email: data.email,
             password: data.password
+        })
+
+        await mailer({
+            email: data.email,
+            subject: 'Account Information',
+            content: `
+                <p>You have completed the ProShop account registration</p>
+                <p>Email: ${data.email}</p>
+                <br/>
+                <p>Password: *************</p>
+            `
         })
 
         response.data = {

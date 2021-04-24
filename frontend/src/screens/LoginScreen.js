@@ -20,9 +20,9 @@ const LoginScreen = ({ location, history }) => {
 
     useEffect(() => {
         if (userInfo) {
-            history.push(redirect)
+            history.push('/')
         }
-    }, [history, userInfo, redirect])
+    }, [history, userInfo])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -65,7 +65,7 @@ const LoginScreen = ({ location, history }) => {
             <Row className='py-3'>
                 <Col>
                     New Customer?{' '}
-                    <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+                    <Link to='/register'>
                         Register
               </Link>
                 </Col>

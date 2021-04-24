@@ -27,7 +27,7 @@ import {
     USER_UPDATE_FAIL
 } from "../constants/user.constants"
 
-export const userLoginReducer = (state = { userInfo: {} }, action) => {
+export const userLoginReducer = (state = {}, action) => {
     switch (action.type) {
         case USER_LOGIN_REQUEST:
             return { loading: true }
@@ -42,7 +42,7 @@ export const userLoginReducer = (state = { userInfo: {} }, action) => {
     }
 }
 
-export const userRegisterReducer = (state = { userInfo: {} }, action) => {
+export const userRegisterReducer = (state = {}, action) => {
     switch (action.type) {
         case USER_REGISTER_REQUEST:
             return { loading: true }

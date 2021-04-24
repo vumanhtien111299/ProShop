@@ -1,3 +1,4 @@
+import { mailer } from '../../common/mailer.js'
 import { Order } from '../../models/order.model.js'
 import { logger } from '../../utils/logger.js'
 
@@ -27,6 +28,24 @@ export const createOrder = async (user, data) => {
             taxPrice,
             shippingPrice,
             totalPrice
+        })
+        console.log(user)
+        await mailer({
+            email: user.email,
+            subject: 'Detail Order',
+            content: `<p>Order Items: ${OrderItems.map((order) => (
+                `
+                <h2>Name: ${order.name}</h2>
+                <br>
+                <h2>QTY: ${order.qty}</h2>
+                <br>
+                <h2>Image: ${order.image}</h2>
+                <br>
+                <h2>Price: ${order.price}</h2>
+                <br>
+                <h2>Product: ${order.product}</h2>
+             `
+            ))}</p>`
         })
 
         response.data = await order.save()

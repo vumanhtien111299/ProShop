@@ -9,3 +9,16 @@ export const AWS_FOLDER = {
     IMAGE: 'image/',
     FILE: 'file/',
 }
+
+export const SMTP_CONFIG = {
+    HOST: process.env.SMTP_HOST,
+    PORT: process.env.SMTP_PORT,
+    SERVICE: process.env.SMTP_SERVICE,
+    SECURE: true,
+    AUTH: {
+        USER: process.env.SMTP_USER,
+        PASS: process.env.SMTP_PASS,
+    },
+};
+
+export const MAILER_FROM = `ProdShop`;

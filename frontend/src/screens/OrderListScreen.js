@@ -10,6 +10,7 @@ const OrderListScreen = ({ history }) => {
     const dispatch = useDispatch()
 
     const { loading, error, orders } = useSelector(({ orderList }) => orderList)
+    console.log(orders)
     const { userInfo } = useSelector(({ userLogin }) => userLogin)
 
     useEffect(() => {
@@ -31,6 +32,7 @@ const OrderListScreen = ({ history }) => {
                                 <th>ID</th>
                                 <th>USER</th>
                                 <th>DATE</th>
+                                <th>PHONE</th>
                                 <th>TOTAL</th>
                                 <th>PAID</th>
                                 <th>DELIVERED</th>
@@ -43,6 +45,7 @@ const OrderListScreen = ({ history }) => {
                                     <td>{order._id}</td>
                                     <td>{order.user && order.user.name}</td>
                                     <td>{order.createdAt.substring(0, 10)}</td>
+                                    <td>{order.shippingAddress.phoneNumber}</td>
                                     <td>${order.totalPrice}</td>
                                     <td>
                                         {order.isPaid ? (
