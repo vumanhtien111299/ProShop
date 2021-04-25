@@ -26,7 +26,7 @@ import {
     USER_UPDATE_SUCCESS,
     USER_UPDATE_FAIL
 } from "../constants/user.constants"
-import { ORDER_LIST_MY_RESET } from '../constants/order.constants.js'
+import { ORDER_CREATE_RESET, ORDER_LIST_MY_RESET } from '../constants/order.constants.js'
 import qs from 'qs'
 import { CART_RESET_ITEM } from '../constants/cart.constants'
 
@@ -71,11 +71,14 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem('userInfo')
     localStorage.removeItem('jwt')
     localStorage.removeItem('cartItems')
+    localStorage.removeItem('paymentMethod')
+    localStorage.removeItem('shippingAddress')
     dispatch({ type: USER_LOGOUT })
     dispatch({ type: USER_DETAILS_RESET })
     dispatch({ type: ORDER_LIST_MY_RESET })
     dispatch({ type: USER_LIST_RESET })
     dispatch({ type: CART_RESET_ITEM })
+    dispatch({ type: ORDER_CREATE_RESET })
 }
 
 export const register = (name, email, password) => async (dispatch) => {

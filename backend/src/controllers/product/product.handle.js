@@ -81,4 +81,10 @@ export const createNewReview = async (req, res) => {
     return res.status(status).send({ status, message, data })
 }
 
+export const getStatistic = async (req, res) => {
+    const { status, message, data } = await product.getStatisticService()
+
+    return res.status(status).send({ status, message, data })
+}
+
 

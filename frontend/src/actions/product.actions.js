@@ -215,3 +215,32 @@ export const listTopProducts = () => async (dispatch) => {
         })
     }
 }
+
+export const StatisticProducts = () => async (dispatch) => {
+    try {
+        const token = localStorage.getItem('jwt');
+
+        dispatch({ type: PRODUCT_TOP_REQUEST })
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        };
+
+        const { data } = await axios.get(`/api/products/statistic`, config)
+
+        dispatch({
+            type: PRODUCT_TOP_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_TOP_FAIL,
+            payload:
+                error.response
+                    && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
+}

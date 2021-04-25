@@ -19,6 +19,7 @@ import ProductListScreen from './screens/ProductListScreen.js'
 import ProductEditScreen from './screens/ProductEditScreen.js'
 import OrderListScreen from './screens/OrderListScreen.js'
 import ChatScreen from './screens/ChatScreen.js'
+import StatisticScreen from './screens/StatisticScreen.js'
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
                     <Route path='/login' component={LoginScreen} />
                     <Route path='/shipping' component={ShippingScreen} />
                     <Route path='/payment' component={PaymentScreen} />
+                    <Route path='/chart' component={StatisticScreen} />
                     <Route path='/place-order' component={PlaceOrderScreen} />
                     <Route path='/orders/:id' component={OrderScreen} />
                     <Route path='/register' component={RegisterScreen} />

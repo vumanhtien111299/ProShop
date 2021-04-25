@@ -4,7 +4,7 @@ import md5 from 'md5'
 import { uploadAWS } from '../../common/awn.js'
 import { BUCKET, AWS_FOLDER } from '../../common/enum.js'
 import { sanitizeUpdateData } from './product.validator.js'
-
+import { Order } from '../../models/order.model.js'
 
 // export const ListProduct = async (filter = {}, limit, skip) => {
 //     const response = {
@@ -246,6 +246,33 @@ export const getTopProducts = async () => {
     } catch (error) {
         logger.fail(error.message)
 
+        response.status = 500
+        response.message = error.message
+    }
+    return response
+}
+
+export const getStatisticService = async () => {
+    const response = {
+        status: 200,
+        message: 'Get top product success !',
+        data: {}
+    };
+    try {
+        const topRating = await Product.find({}).sort({ rating: -1 }).limit(5)
+        const topOrder = await Order.aggregate([
+            { $unwind: '$OrderItems' },
+            { $lookup: { from: 'products', localField: 'OrderItems.product', foreignField: '_id', as: 'product_info' } },
+            { $unwind: '$product_info' },
+            {
+                $group: {
+                    _id: { productId: '$OrderItems.product', 'productName': '$product_info.name' }, count: { $sum: 1 },
+                }
+            },
+            { $sort: { 'count': -1 } }
+        ])
+        response.data = { topRating, topOrder }
+    } catch (error) {
         response.status = 500
         response.message = error.message
     }

@@ -65,13 +65,13 @@ const Header = () => {
                                     <i className="fas fa-sms">SMS</i>
                                 </Nav.Link>
                             </LinkContainer>
-                            <LinkContainer to="/feedback">
+                            {/* <LinkContainer to="/feedback">
                                 <Nav.Link>
                                     <i className="fab fa-rocketchat">FeedBack</i>
                                 </Nav.Link>
-                            </LinkContainer>
+                            </LinkContainer> */}
                             {userInfo && userInfo.isAdmin && (
-                                <LinkContainer to="/feedback">
+                                <LinkContainer to="/chart">
                                     <Nav.Link>
                                         <i className="fas fa-chart-bar">Chart</i>
                                     </Nav.Link>
