@@ -4,7 +4,7 @@ import { Product } from '../../models/product.model.js'
 
 export const List = async (req, res) => {
     try {
-        const pageSize = 2
+        const pageSize = 8
         const page = Number(req.query.pageNumber) || 1
 
         const keyword = req.query.keyword

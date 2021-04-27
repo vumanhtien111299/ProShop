@@ -4,11 +4,12 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import { Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { addDecimals, formatTimeZone } from '../utils/index.js';
-import Message from '../components/Message.js'
-import Loader from '../components/Loader.js'
+import { addDecimals, formatTimeZone } from '../utils/index.js'
+import { AWS_FOLDER } from '../config.js'
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/order.actions.js'
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/order.constants.js'
+import Message from '../components/Message.js'
+import Loader from '../components/Loader.js'
 
 const OrderScreen = ({ match, history }) => {
     const orderId = match.params.id
@@ -112,7 +113,7 @@ const OrderScreen = ({ match, history }) => {
                                             <Row>
                                                 <Col md={1}>
                                                     <Image
-                                                        src={item.image}
+                                                        src={`${AWS_FOLDER.IMAGE}${item.image}`}
                                                         alt={item.name}
                                                         fluid
                                                         rounded

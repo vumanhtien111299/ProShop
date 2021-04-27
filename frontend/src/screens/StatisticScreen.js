@@ -22,7 +22,7 @@ const StatisticScreen = () => {
                     data={{
                         labels: data?.data?.topOrder && data.data.topOrder.map(x => x._id.productName),
                         datasets: [{
-                            label: 'Number of contributions',
+                            label: 'Top 5 products with the highest Order',
                             data: data?.data?.topOrder && data.data.topOrder.map(x => x.count),
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
@@ -70,9 +70,9 @@ const StatisticScreen = () => {
             <Row>
                 <Bar
                     data={{
-                        labels: data?.data?.topRating && data.data.topRating.map(x => x.productName),
+                        labels: data?.data?.topRating && data.data.topRating.map(x => x.name),
                         datasets: [{
-                            label: 'Number of contributions',
+                            label: 'Top 5 products with the highest Rating',
                             data: data?.data?.topRating && data.data.topRating.map(x => x.rating),
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',

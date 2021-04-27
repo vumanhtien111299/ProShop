@@ -125,7 +125,7 @@ export const adminCreateProduct = async (_id) => {
             name: 'Sample name',
             price: 0,
             user: _id,
-            image: '/images/sample.jpg',
+            image: 'sample.jpg',
             brand: 'Sample brand',
             category: 'Sample category',
             countInStock: 0,
@@ -152,7 +152,8 @@ export const adminUpdateProduct = async (productId, data, file) => {
     };
     try {
         const updateData = sanitizeUpdateData(data)
-        const updatedProduct = await Product.findOneAndUpdate({ _id: productId }, updateData, { new: true });
+        console.log(updateData)
+        const updatedProduct = await Product.findOneAndUpdate({ _id: productId }, updateData, { new: true })
         if (!updatedProduct) {
             return {
                 status: 404,

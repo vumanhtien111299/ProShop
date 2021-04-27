@@ -139,6 +139,11 @@ export const updateProduct = (product) => async (dispatch) => {
         const dataImage = new FormData()
         dataImage.append('image', product.image)
         dataImage.append('name', product.name)
+        dataImage.append('brand', product.brand)
+        dataImage.append('category', product.category)
+        dataImage.append('description', product.description)
+        dataImage.append('price', product.price)
+        dataImage.append('countInStock', product.countInStock)
 
         const config = {
             headers: {

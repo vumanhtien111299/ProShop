@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom'
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { addDecimals } from '../utils/index.js';
+import { AWS_FOLDER } from '../config.js'
+import { createOrder } from '../actions/order.actions.js'
 import Message from '../components/Message.js'
 import CheckoutSteps from '../components/CheckoutSteps.js'
-import { createOrder } from '../actions/order.actions.js'
 
 const PlaceOrderScreen = ({ history }) => {
     const dispatch = useDispatch()
@@ -75,8 +76,7 @@ const PlaceOrderScreen = ({ history }) => {
                                         <ListGroup.Item key={index}>
                                             <Row>
                                                 <Col md={1}>
-                                                    <Image src={item.image} alt={item.name}
-                                                        fluid rounded />
+                                                    <Image src={`${AWS_FOLDER.IMAGE}${item.image}`} alt={item.name} fluid rounded />
                                                 </Col>
                                                 <Col>
                                                     <Link to={`/product/${item.product}`}>

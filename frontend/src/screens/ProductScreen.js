@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import { listProductDetails, createProductReview } from '../actions/product.actions.js'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/product.constants.js'
+import { AWS_FOLDER } from '../config.js'
 import Rating from '../components/Rating.js'
 import Message from '../components/Message.js'
 import Loader from '../components/Loader.js'
@@ -54,7 +55,7 @@ const ProductScreen = ({ history, match }) => {
                     <Meta title={product.name} />
                     <Row>
                         <Col md={6}>
-                            <Image src={product.image} alt={product.name} fluid />
+                            <Image src={`${AWS_FOLDER.IMAGE}${product.image}`} alt={product.name} fluid />
                         </Col>
                         <Col md={3}>
                             <ListGroup variant='flush'>

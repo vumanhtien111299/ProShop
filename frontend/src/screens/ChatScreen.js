@@ -3,20 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { io } from 'socket.io-client'
 import { afterSendMessage, getMessage } from '../actions/chat.actions.js'
 import { listUsers } from '../actions/user.actions.js'
-import { Button, Image, Figure } from 'react-bootstrap'
-import { generatePicture } from '../urlConfig.js'
+import { Button, Figure } from 'react-bootstrap'
 import { AWS_FOLDER } from '../config.js'
 
 import moment from 'moment'
-
-
-
 import '../index.css'
-import { Discovery } from 'aws-sdk'
-import { GET_MESSAGES_FAIL } from '../constants/chat.constants.js'
 
 let socket
-let messagesEnd
 
 const Chat = () => {
     const { userInfo } = useSelector(({ userLogin }) => userLogin)
@@ -27,7 +20,6 @@ const Chat = () => {
     const [usersChat, setUsersChat] = useState(users)
     const [receiverName, setReceiverName] = useState('')
     const [receiverId, setReceiverId] = useState('')
-    const [receiverAvatar, setReceiverAvatar] = useState('')
 
     const endpoint = 'http://localhost:5000'
 
@@ -36,8 +28,6 @@ const Chat = () => {
         // find user based on id
         const user = users?.data && users.data.find(user => user._id === id)
         setReceiverName(user.name)
-        setReceiverAvatar(user.avatar)
-        console.log(user)
     }
 
     useEffect(() => {
@@ -117,6 +107,11 @@ const Chat = () => {
 
                     <div className="col-lg-9">
                         <div className="card">
+                            <div className="card-header text-uppercase">
+                                <div className="user-profile" style={{ display: 'flex', alignItems: 'center' }}>
+                                    <span><div className="mt-0 mb-1 ml-1">{receiverName}</div></span>
+                                </div>
+                            </div>
 
                             <div class="card-body outer-message" >
                                 {

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Carousel, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { listTopProducts } from '../actions/product.actions.js'
+import { AWS_FOLDER } from '../config.js'
 import Loader from './Loader.js'
 import Message from './Message.js'
 
@@ -24,7 +25,7 @@ const ProductCarousel = () => {
             {products && products.map((product) => (
                 <Carousel.Item key={product._id}>
                     <Link to={`/products/${product._id}`}>
-                        <Image src={product.image} alt={product.name} fluid />
+                        <Image src={`${AWS_FOLDER.IMAGE}${product.image}`} alt={product.name} fluid />
                         <Carousel.Caption className='carousel-caption'>
                             <h2>
                                 {product.name} (${product.price})

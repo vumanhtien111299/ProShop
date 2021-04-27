@@ -11,7 +11,9 @@ import router from './routes/index.js';
 const app = express()
 
 app.use('/public', express.static(path.resolve(path.join('src', 'uploads'))))
+
 app.use(morgan('dev'))
+
 app.use(bodyParser.json())
 // set router
 router(app);
