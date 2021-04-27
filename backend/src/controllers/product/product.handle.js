@@ -28,16 +28,6 @@ export const List = async (req, res) => {
     }
 }
 
-// export const List = async (req, res) => {
-//     const query = keywordData(req.query)
-
-//     const limit = parseInt(req.query.limit, 2) || 2
-//     const skip = parseInt(req.query.skip, 2) || 0
-
-//     const { status, message, data } = await product.ListProduct(query, limit, skip)
-
-//     return res.status(status).send({ status, message, data })
-// };
 
 export const TopProducts = async (req, res) => {
     const { status, data } = await product.getTopProducts()

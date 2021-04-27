@@ -6,57 +6,6 @@ import { BUCKET, AWS_FOLDER } from '../../common/enum.js'
 import { sanitizeUpdateData } from './product.validator.js'
 import { Order } from '../../models/order.model.js'
 
-// export const ListProduct = async (filter = {}, limit, skip) => {
-//     const response = {
-//         status: 200,
-//         message: 'Showing list Product',
-//         data: {}
-//     };
-//     try {
-//         const filterProduct = {
-//             ...filter,
-//             isDeleted: false,
-//         }
-//         const total = await Product.countDocuments(filterProduct)
-//         console.log('----total---', total)
-
-//         const products = await Product.find(filterProduct)
-//             .limit(limit)
-//             .skip(skip)
-//         console.log('---products---', products)
-//         if (limit === -1) {
-//             const fullProducts = await Product.find(filterProduct)
-//             console.log('---fullProducts---', fullProducts)
-
-
-//             response.data = {
-//                 total: fullProducts.length,
-//                 limit: 0,
-//                 skip: 0,
-//                 totalPage: 1,
-//                 fullProducts
-//             }
-//         } else {
-//             response.data = {
-//                 total,
-//                 limit,
-//                 skip,
-//                 totalPage: Math.ceil(total / limit),
-//                 products,
-//             }
-//         }
-
-//         logger.success('Get List success')
-//     } catch (error) {
-//         logger.fail(error.message)
-
-//         response.status = 500
-//         response.message = error.message
-
-//     }
-//     return response
-// }
-
 export const ProductDetail = async (id) => {
     const response = {
         status: 200,
