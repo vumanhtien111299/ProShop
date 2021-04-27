@@ -20,7 +20,10 @@ import {
     PRODUCT_CREATE_REVIEW_FAIL,
     PRODUCT_TOP_REQUEST,
     PRODUCT_TOP_SUCCESS,
-    PRODUCT_TOP_FAIL
+    PRODUCT_TOP_FAIL,
+    PRODUCT_STATISTIC_REQUEST,
+    PRODUCT_STATISTIC_SUCCESS,
+    PRODUCT_STATISTIC_FAIL
 } from '../constants/product.constants.js'
 import { logout } from './user.actions.js'
 
@@ -220,7 +223,7 @@ export const StatisticProducts = () => async (dispatch) => {
     try {
         const token = localStorage.getItem('jwt');
 
-        dispatch({ type: PRODUCT_TOP_REQUEST })
+        dispatch({ type: PRODUCT_STATISTIC_REQUEST })
         const config = {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -230,12 +233,12 @@ export const StatisticProducts = () => async (dispatch) => {
         const { data } = await axios.get(`/api/products/statistic`, config)
 
         dispatch({
-            type: PRODUCT_TOP_SUCCESS,
+            type: PRODUCT_STATISTIC_SUCCESS,
             payload: data
         })
     } catch (error) {
         dispatch({
-            type: PRODUCT_TOP_FAIL,
+            type: PRODUCT_STATISTIC_FAIL,
             payload:
                 error.response
                     && error.response.data.message

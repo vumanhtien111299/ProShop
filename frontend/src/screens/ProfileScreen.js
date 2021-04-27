@@ -148,7 +148,7 @@ const ProfileScreen = ({ history }) => {
         </Col>
         <Col md={9}>
             <h2>My Orders</h2>
-            {loadingOrders ? <Loader /> : errorOrders ? <Message variant="danger">{errorOrders}</Message> : (
+            {loadingOrders ? <Loader /> : errorOrders ? <Message variant="danger">{errorOrders}</Message> : userInfo && userInfo.isAdmin === false && (
                 <Table striped bordered hover responsive className="table-sm">
                     <thead>
                         <tr>
@@ -161,7 +161,7 @@ const ProfileScreen = ({ history }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map((order) => (
+                        {orders && orders.map((order) => (
                             <tr key={order._id}>
                                 <td>{order._id}</td>
                                 <td>{formatTimeZone(order.createdAt)}</td>
@@ -173,8 +173,10 @@ const ProfileScreen = ({ history }) => {
                                     <i className="fas fa-times" style={{ color: "red" }}></i>
                                 )}</td>
                                 <td>
-                                    <LinkContainer to={`/order/${order._id}`}>
-                                        <Button className="btn-sm" variant="light">Details</Button>
+                                    <LinkContainer to={`/orders/${order._id}`}>
+                                        <Button variant='light' className='btn-sm'>
+                                            Details
+                                        </Button>
                                     </LinkContainer>
                                 </td>
                             </tr>

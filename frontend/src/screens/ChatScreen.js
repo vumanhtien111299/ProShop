@@ -90,41 +90,33 @@ const Chat = () => {
         <div className="content-wrapper">
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col-lg-3">
-                        <div className="card">
-                            <div className="card-header text-uppercase" style={{ margin: '7px' }}>Friends</div>
-                            <div className="card-body outer-message" style={{ padding: '0' }}>
-                                {
-                                    users?.data && users.data.map((user) => (
-                                        <ul className="list-group">
-                                            <li className='d-flex justify-content-between align-items-center list-friend-css'
-                                                onClick={() => handleSetReceiver(user._id)}>
-                                                <div class="user-profile" style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <Figure.Image width={70} height={70} rounded className="img-circle" alt="171x180" src={`${AWS_FOLDER.IMAGE}${user.avatar}`} roundedCircle fluid />
-                                                    <div style={{ paddingLeft: '10px' }} className="mt-0 mb-1 ml-1">{user.name}</div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    ))
-                                }
-
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-9">
-                        <div className="card">
-                            <div className="card-header text-uppercase">
-                                <div className="user-profile" style={{ display: 'flex', alignItems: 'center' }}>
-                                    {
-                                        userInfo?.isAdmin && (
-                                            <div className="user-profile" style={{ display: 'flex', alignItems: 'center' }}>
-                                                {/* <img src={receiverAvatar ? generatePicture(receiverAvatar) : "https://via.placeholder.com/110x110"} className="img-circle user-profile" alt="user avatar" /> */}
-                                                <span><div className="mt-0 mb-1 ml-1">{receiverName}</div></span>
-                                            </div>
-                                        )
-                                    }
+                    {
+                        userInfo?.isAdmin && (
+                            <div className="col-lg-3">
+                                <div className="card">
+                                    <div className="card-header text-uppercase" style={{ margin: '7px' }}>Customer</div>
+                                    <div className="card-body outer-message" style={{ padding: '0' }}>
+                                        {
+                                            users?.data && users.data.map((user) => (
+                                                <ul className="list-group">
+                                                    <li className='d-flex justify-content-between align-items-center list-friend-css'
+                                                        onClick={() => handleSetReceiver(user._id)}>
+                                                        <div class="user-profile" style={{ display: 'flex', alignItems: 'center' }}>
+                                                            <Figure.Image width={70} height={70} rounded className="img-circle" alt="171x180" src={`${AWS_FOLDER.IMAGE}${user.avatar}`} roundedCircle fluid />
+                                                            <div style={{ paddingLeft: '10px' }} className="mt-0 mb-1 ml-1">{user.name}</div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            ))
+                                        }
+                                    </div>
                                 </div>
                             </div>
+                        )
+                    }
+
+                    <div className="col-lg-9">
+                        <div className="card">
 
                             <div class="card-body outer-message" >
                                 {

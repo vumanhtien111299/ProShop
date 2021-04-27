@@ -70,7 +70,7 @@ const StatisticScreen = () => {
             <Row>
                 <Bar
                     data={{
-                        labels: data?.data?.topRating && data.data.topRating.map(x => x.name),
+                        labels: data?.data?.topRating && data.data.topRating.map(x => x.productName),
                         datasets: [{
                             label: 'Number of contributions',
                             data: data?.data?.topRating && data.data.topRating.map(x => x.rating),
